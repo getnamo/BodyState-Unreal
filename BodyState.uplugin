@@ -1,0 +1,23 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "0.1",
+	"FriendlyName": "BodyState",
+	"Description": "Abstract skeleton target for body tracking input devices. Query BodyStateSkeleton to get merged state.",
+	"Category": "Input",
+	"CreatedBy": "Getnamo",
+	"CreatedByURL": "https://github.com/getnamo",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"EnabledByDefault": true,
+	"CanContainContent": true,
+	"Modules": [
+		{
+			"Name": "BodyState",
+			"Type": "Developer",
+			"LoadingPhase": "Default",
+			"WhitelistPlatforms" : [ "Win64", "Win32", "Mac" ]
+		}
+	]
+}
