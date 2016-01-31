@@ -1,10 +1,10 @@
 #pragma once
 
 #include "BodyStateFinger.h"
-#include "BodyStateHand.generated.h"
+#include "BodyStateArm.generated.h"
 
 UCLASS(BlueprintType)
-class BODYSTATE_API UBodyStateHand : public UObject
+class BODYSTATE_API UBodyStateArm : public UObject
 {
 	GENERATED_UCLASS_BODY()
 
@@ -48,7 +48,7 @@ class BODYSTATE_API UBodyStateHand : public UObject
 	void SetEnabled(bool enable = true);
 
 	UFUNCTION(BlueprintCallable, Category = "BodyState Hand")
-	void TranslateHand(FVector shift);
+	void TranslateArm(FVector shift);
 
 	UFUNCTION(BlueprintCallable, Category = "BodyState Hand")
 	void ChangeBasis(FRotator PreBase, FRotator PostBase, bool adjustVectors = true);

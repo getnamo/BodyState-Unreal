@@ -4,7 +4,7 @@
 
 #include "ModuleManager.h"
 
-class FBodyStateModule : public IModuleInterface
+class BODYSTATE_API  FBodyStateModule : public IModuleInterface
 {
 public:
 

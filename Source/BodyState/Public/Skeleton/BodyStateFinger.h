@@ -7,7 +7,7 @@
 
 
 UCLASS(BlueprintType)
-class UBodyStateFinger : public UObject
+class BODYSTATE_API UBodyStateFinger : public UObject
 {
 	GENERATED_UCLASS_BODY()
 

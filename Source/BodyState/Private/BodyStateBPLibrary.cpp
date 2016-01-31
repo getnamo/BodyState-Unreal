@@ -9,7 +9,7 @@ UBodyStateBPLibrary::UBodyStateBPLibrary(const FObjectInitializer& ObjectInitial
 
 }
 
-int32 UBodyStateBPLibrary::DeviceAttached(UBodyStateDeviceConfig* Configuration)
+int32 UBodyStateBPLibrary::DeviceAttached(UBodyStateDeviceConfig* Configuration, TScriptInterface<IBodyStateInputInterface> InputCallbackDelegate)
 {
 	return -1;
 }

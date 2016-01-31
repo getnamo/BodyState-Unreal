@@ -4,10 +4,13 @@
 #include "BodyStateBone.generated.h"
 
 UCLASS(BlueprintType)
-class UBodyStateBone : public UObject
+class BODYSTATE_API UBodyStateBone : public UObject
 {
 	GENERATED_UCLASS_BODY()
-		
+
+	UPROPERTY(BlueprintReadWrite, Category = "BodyState Bone")
+	UBodyStateBone* Parent;
+
 	UPROPERTY(BlueprintReadWrite, Category = "BodyState Bone")
 	FVector Position;
 
@@ -29,20 +32,22 @@ class UBodyStateBone : public UObject
 
 
 	UFUNCTION(BlueprintCallable, Category = "BodyState Bone")
-	bool Enabled();
-
-	UFUNCTION(BlueprintCallable, Category = "BodyState Bone")
-	void SetEnabled(bool enable = true);
-
-	UFUNCTION(BlueprintCallable, Category = "BodyState Bone")
 	void SetFromTransform(const FTransform& in);
 
 	UFUNCTION(BlueprintCallable, Category = "BodyState Bone")
 	FTransform GetTransform();
 
-	UFUNCTION(BlueprintCallable, Category = "BodyState Bone")
-	void TranslateBone(FVector shift);
 
 	UFUNCTION(BlueprintCallable, Category = "BodyState Bone")
-	void ChangeBasis(FRotator PreBase, FRotator PostBase, bool adjustVectors = true);
+	virtual bool Enabled();
+
+	UFUNCTION(BlueprintCallable, Category = "BodyState Bone")
+	virtual void SetEnabled(bool enable = true);
+
+
+	UFUNCTION(BlueprintCallable, Category = "BodyState Bone")
+	virtual void TranslateBone(FVector shift);
+
+	UFUNCTION(BlueprintCallable, Category = "BodyState Bone")
+	virtual void ChangeBasis(FRotator PreBase, FRotator PostBase, bool adjustVectors = true);
 };

@@ -14,7 +14,7 @@ enum BodyStateDeviceInputType
 };
 
 UCLASS()
-class UBodyStateDeviceConfig : public UObject
+class BODYSTATE_API UBodyStateDeviceConfig : public UObject
 {
 	GENERATED_UCLASS_BODY()
 

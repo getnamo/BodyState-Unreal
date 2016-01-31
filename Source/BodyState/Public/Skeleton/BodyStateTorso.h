@@ -1,10 +1,9 @@
 #pragma once
 
-#include "BodyStateFinger.h"
-#include "BodyStateHand.generated.h"
+#include "BodyStateTorso.generated.h"
 
 UCLASS(BlueprintType)
-class BODYSTATE_API UBodyStateHand : public UObject
+class BODYSTATE_API UBodyStateTorso : public UObject
 {
 	GENERATED_UCLASS_BODY()
 
@@ -15,31 +14,26 @@ class BODYSTATE_API UBodyStateHand : public UObject
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "BodyState Hand")
 	float Confidence;
 
-	//Fingers
-	UPROPERTY(BlueprintReadOnly, Category = "BodyState Hand Finger")
-	UBodyStateFinger* Thumb;
 
-	UPROPERTY(BlueprintReadOnly, Category = "BodyState Hand Finger")
-	UBodyStateFinger* Index;
-	
-	UPROPERTY(BlueprintReadOnly, Category = "BodyState Hand Finger")
-	UBodyStateFinger* Middle;
-
-	UPROPERTY(BlueprintReadOnly, Category = "BodyState Hand Finger")
-	UBodyStateFinger* Ring;
-
-	UPROPERTY(BlueprintReadOnly, Category = "BodyState Hand Finger")
-	UBodyStateFinger* Pinky;
-	
 	//Arm and Wrist, NB: Consider moving this up the skeletal tree, for leap this is sufficient
 	UPROPERTY(BlueprintReadOnly, Category = "BodyState Hand")
-	UBodyStateBone* Wrist;
+	UBodyStateBone* Pelvis;
 
 	UPROPERTY(BlueprintReadOnly, Category = "BodyState Hand")
-	UBodyStateBone* Palm;
+	UBodyStateBone* SpineLower;
 
 	UPROPERTY(BlueprintReadOnly, Category = "BodyState Hand")
-	UBodyStateBone* LowerArm;
+	UBodyStateBone* SpineMiddle;
+
+	UPROPERTY(BlueprintReadOnly, Category = "BodyState Hand")
+	UBodyStateBone* SpineUpper;
+
+	UPROPERTY(BlueprintReadOnly, Category = "BodyState Hand")
+	UBodyStateBone* Neck;
+
+	UPROPERTY(BlueprintReadOnly, Category = "BodyState Hand")
+	UBodyStateBone* Head;
+
 
 	UFUNCTION(BlueprintCallable, Category = "BodyState Hand")
 	bool Enabled();

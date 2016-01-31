@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Engine.h"
+#include "BodyStateInputInterface.h"
 #include "BodyStateDeviceConfig.h"
 #include "BodyStateBPLibrary.generated.h"
 
@@ -24,13 +25,17 @@
 *	https://wiki.unrealengine.com/Custom_Blueprint_Node_Creation
 */
 UCLASS() 
-class UBodyStateBPLibrary : public UBlueprintFunctionLibrary
+class BODYSTATE_API UBodyStateBPLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_UCLASS_BODY()
 
 	UFUNCTION(BlueprintCallable, Category = "Body State Input")
-	static int32 DeviceAttached(UBodyStateDeviceConfig* Configuration);
+	static int32 DeviceAttached(UBodyStateDeviceConfig* Configuration, TScriptInterface<IBodyStateInputInterface> InputCallbackDelegate);
 
 	UFUNCTION(BlueprintCallable, Category = "Body State Input")
 	static bool DeviceDetached(int32 DeviceID);
+
+	//Define mixing and update interfaces
+	//UFUNCTION(BlueprintCallable, Category = "Body State Input")
+	//static bool AttachMergeAlgorithm();
 };
