@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Engine.h"
+#include "BodyStateDeviceConfig.h"
 #include "BodyStateBPLibrary.generated.h"
 
 /* 
@@ -22,11 +23,14 @@
 *	For more info on custom blueprint nodes visit documentation:
 *	https://wiki.unrealengine.com/Custom_Blueprint_Node_Creation
 */
-UCLASS()
+UCLASS() 
 class UBodyStateBPLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_UCLASS_BODY()
 
-	UFUNCTION(BlueprintCallable, meta = (DisplayName = "Execute Sample function", Keywords = "BodyState sample test testing"), Category = "BodyStateTesting")
-	static float BodyStateSampleFunction(float Param);
+	UFUNCTION(BlueprintCallable, Category = "Body State Input")
+	static int32 DeviceAttached(UBodyStateDeviceConfig* Configuration);
+
+	UFUNCTION(BlueprintCallable, Category = "Body State Input")
+	static bool DeviceDetached(int32 DeviceID);
 };

@@ -9,8 +9,13 @@ UBodyStateBPLibrary::UBodyStateBPLibrary(const FObjectInitializer& ObjectInitial
 
 }
 
-float UBodyStateBPLibrary::BodyStateSampleFunction(float Param)
+int32 UBodyStateBPLibrary::DeviceAttached(UBodyStateDeviceConfig* Configuration)
 {
 	return -1;
+}
+
+bool UBodyStateBPLibrary::DeviceDetached(int32 DeviceID)
+{
+	return false;
 }
 

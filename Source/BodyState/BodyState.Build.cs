@@ -28,7 +28,7 @@ public class BodyState : ModuleRules
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
-				"Core",
+				"Core"
 				
 				// ... add other public dependencies that you statically link with here ...
 			}
@@ -38,11 +38,13 @@ public class BodyState : ModuleRules
 		PrivateDependencyModuleNames.AddRange(
 			new string[]
 			{
-				"CoreUObject",
-				"Engine",
-				"Slate",
-				"SlateCore",
-
+                "CoreUObject",
+                "Engine",
+                "InputCore",
+                "InputDevice",
+                "HeadMountedDisplay",
+                "Slate",
+                "SlateCore"
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);
