@@ -42,3 +42,8 @@ UBodyStateBone* UBodyStateSkeleton::BoneForEnum(TEnumAsByte<BodyStateUEHumanoidB
 {
 	return nullptr;
 }
+
+class UBodyStateBone* UBodyStateSkeleton::BoneNamed(const FString& Name)
+{
+	return nullptr;
+}

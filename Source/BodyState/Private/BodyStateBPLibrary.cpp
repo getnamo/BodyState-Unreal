@@ -6,7 +6,7 @@
 UBodyStateBPLibrary::UBodyStateBPLibrary(const FObjectInitializer& ObjectInitializer)
 : Super(ObjectInitializer)
 {
-
+	UE_LOG(LogClass, Log, TEXT("UBodyStateBPLibrary called"));
 }
 
 int32 UBodyStateBPLibrary::DeviceAttached(UBodyStateDeviceConfig* Configuration, TScriptInterface<IBodyStateInputInterface> InputCallbackDelegate)
@@ -15,6 +15,11 @@ int32 UBodyStateBPLibrary::DeviceAttached(UBodyStateDeviceConfig* Configuration,
 }
 
 bool UBodyStateBPLibrary::DeviceDetached(int32 DeviceID)
+{
+	return false;
+}
+
+bool UBodyStateBPLibrary::AttachMergeAlgorithm(TFunction< void()> InFunction)
 {
 	return false;
 }

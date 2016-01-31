@@ -35,7 +35,7 @@ class BODYSTATE_API UBodyStateBPLibrary : public UBlueprintFunctionLibrary
 	UFUNCTION(BlueprintCallable, Category = "Body State Input")
 	static bool DeviceDetached(int32 DeviceID);
 
-	//Define mixing and update interfaces
+	//Define mixing and update interfaces - this isn't ready
 	//UFUNCTION(BlueprintCallable, Category = "Body State Input")
-	//static bool AttachMergeAlgorithm();
+	static bool AttachMergeAlgorithm(TFunction< void()> InFunction);
 };

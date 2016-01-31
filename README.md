@@ -4,6 +4,10 @@ An abstract skeleton target for body tracking input devices. These hardware devi
 
 *Note that the plugin is currently in a non-functioning state and is in heavy development*
 
+### General Idea
+
+<img src ="http://i.imgur.com/EDNCitF.png">
+
 ### Example input devices (non-exhaustive) 
 
 HMD mounted systems: [Leap Motion](https://www.leapmotion.com/)

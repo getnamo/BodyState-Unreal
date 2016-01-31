@@ -15,12 +15,16 @@ class BODYSTATE_API UBodyStateSkeleton : public UObject
 {
 	GENERATED_UCLASS_BODY()
 
-	//Storage of actual bones
+	//Note: Storage of actual bone data should be here
 	UPROPERTY(BlueprintReadOnly, Category = "BodyState Skeleton")
 	TArray<UBodyStateBone*> Bones;		//All bones stored here
 
+	//Used for reference point calibration e.g. hydra base origin
+	UPROPERTY(BlueprintReadOnly, Category = "BodyState Skeleton")
+	FTransform RootOffset;
 
-	//Convenience getters and object wrappers
+
+	//Convenience getters and object wrappers - offers a convenient perspective on the data
 
 	//We use a general concept hierarchy as a convenience wrapper around bones
 
@@ -46,14 +50,21 @@ class BODYSTATE_API UBodyStateSkeleton : public UObject
 	UFUNCTION(BlueprintPure, Category = "BodyState Skeleton")
 	UBodyStateTorso* Torso();
 
-	//Todo: implement contextual fetch for fingers / hands
+	//Todo: implement contextual fetch for fingers / hands / head
 	//UFUNCTION(BlueprintPure, Category = "BodyState Skeleton")
 	//TArray<UBodyStateFinger> Fingers();
 
 	//UFUNCTION(BlueprintPure, Category = "BodyState Skeleton")
 	//TArray<UBodyStateHand> Hands();
 
+	//UFUNCTION(BlueprintPure, Category = "BodyState Skeleton")
+	//UBodyStateBone* Head();
+
 	/*Get Bone data by enum*/
-	UFUNCTION(BlueprintCallable, Category = "BodyState Skeleton")
+	UFUNCTION(BlueprintPure, Category = "BodyState Skeleton")
 	class UBodyStateBone* BoneForEnum(TEnumAsByte<BodyStateUEHumanoidBone> Bone);
+
+	/*Get Bone data by name matching*/
+	UFUNCTION(BlueprintPure, Category = "BodyState Skeleton")
+	class UBodyStateBone* BoneNamed(const FString& Name);
 };

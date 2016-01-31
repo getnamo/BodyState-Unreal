@@ -23,7 +23,10 @@ class BODYSTATE_API UBodyStateLeg : public UObject
 	UBodyStateBone* Calf;
 
 	UPROPERTY(BlueprintReadOnly, Category = "BodyState Hand")
-	UBodyStateBone* LowerArm;
+	UBodyStateBone* Foot;
+
+	UPROPERTY(BlueprintReadOnly, Category = "BodyState Hand")
+	UBodyStateBone* Ball;
 
 
 	UFUNCTION(BlueprintCallable, Category = "BodyState Hand")
