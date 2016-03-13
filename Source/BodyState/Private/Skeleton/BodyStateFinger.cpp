@@ -37,10 +37,10 @@ void UBodyStateFinger::SetEnabled(bool enable)
 void UBodyStateFinger::TranslateFinger(FVector shift)
 {
 	//Shift all bones
-	Metacarpal->TranslateBone(shift);
-	Proximal->TranslateBone(shift);
-	Intermediate->TranslateBone(shift);
-	Distal->TranslateBone(shift);
+	Metacarpal->ShiftBone(shift);
+	Proximal->ShiftBone(shift);
+	Intermediate->ShiftBone(shift);
+	Distal->ShiftBone(shift);
 }
 
 void UBodyStateFinger::ChangeBasis(FRotator PreBase, FRotator PostBase, bool adjustVectors)

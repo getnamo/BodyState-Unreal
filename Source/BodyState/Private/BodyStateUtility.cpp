@@ -1,6 +1,6 @@
 #include "BodyStatePrivatePCH.h"
 
-//DEFINE_LOG_CATEGORY(BodyStatePluginLog);
+DEFINE_LOG_CATEGORY(BodyStateLog);
 
 FRotator CombineRotators(FRotator A, FRotator B)
 {

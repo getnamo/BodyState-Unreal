@@ -6,7 +6,40 @@
 UBodyStateBone::UBodyStateBone(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
-	Scale = FVector(1, 1, 1);
+	Transform.SetScale3D(FVector(1.f));
+}
+
+FVector UBodyStateBone::Position()
+{
+	return Transform.GetTranslation();
+}
+
+
+void UBodyStateBone::SetPosition(const FVector& InPosition)
+{
+	Transform.SetTranslation(InPosition);
+}
+
+FRotator UBodyStateBone::Orientation()
+{
+	return Transform.GetRotation().Rotator();
+}
+
+
+void UBodyStateBone::SetOrientation(const FRotator& InOrientation)
+{
+	Transform.SetRotation(InOrientation.Quaternion());
+}
+
+FVector UBodyStateBone::Scale()
+{
+	return Transform.GetScale3D();
+}
+
+
+void UBodyStateBone::SetScale(const FVector& InScale)
+{
+	Transform.SetScale3D(InScale);
 }
 
 bool UBodyStateBone::Enabled()
@@ -19,30 +52,20 @@ void UBodyStateBone::SetEnabled(bool enable)
 	enable ? Alpha = 1.f: Alpha = 0.f;
 }
 
-void UBodyStateBone::SetFromTransform(const FTransform& transform)
+void UBodyStateBone::ShiftBone(FVector shift)
 {
-	Orientation = FRotator(transform.GetRotation());
-	Position = transform.GetTranslation();
-	Scale = transform.GetScale3D();
-}
-
-FTransform UBodyStateBone::GetTransform()
-{
-	return FTransform(FQuat(Orientation), Position, Scale);
-}
-
-void UBodyStateBone::TranslateBone(FVector shift)
-{
-	Position += shift;
+	Transform.SetTranslation(Transform.GetTranslation() + shift);
 }
 
 void UBodyStateBone::ChangeBasis(FRotator PreBase, FRotator PostBase, bool adjustVectors)
 {
 	//Adjust the orientation
-	FRotator postCombine = CombineRotators(Orientation, PostBase);
-	Orientation = CombineRotators(PreBase, postCombine);
+	FRotator postCombine = CombineRotators(Orientation(), PostBase);
+	Transform.SetRotation(FQuat(CombineRotators(PreBase, postCombine)));
 
 	//Rotate our vector/s
-	if(adjustVectors)
-		Position = PostBase.RotateVector(Position);
+	if (adjustVectors) 
+	{
+		Transform.SetTranslation(PostBase.RotateVector(Position()));
+	}
 }

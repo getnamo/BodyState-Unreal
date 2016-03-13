@@ -6,6 +6,7 @@
 UBodyStateSkeleton::UBodyStateSkeleton(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
+	//Todo: build
 }
 
 UBodyStateBone* UBodyStateSkeleton::RootBone()
