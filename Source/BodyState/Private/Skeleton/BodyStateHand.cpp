@@ -17,9 +17,9 @@ bool UBodyStateHand::Enabled()
 	return Alpha == 1.f;
 }
 
-void UBodyStateHand::SetEnabled(bool enable)
+void UBodyStateHand::SetEnabled(bool Enable)
 {
-	if (enable)
+	if (Enable)
 	{
 		Alpha = 1.f;
 	}
@@ -29,29 +29,29 @@ void UBodyStateHand::SetEnabled(bool enable)
 	}
 
 	//Forward to every finger
-	Thumb->SetEnabled(enable);
-	Index->SetEnabled(enable);
-	Middle->SetEnabled(enable);
-	Ring->SetEnabled(enable);
-	Pinky->SetEnabled(enable);
+	Thumb->SetEnabled(Enable);
+	Index->SetEnabled(Enable);
+	Middle->SetEnabled(Enable);
+	Ring->SetEnabled(Enable);
+	Pinky->SetEnabled(Enable);
 }
 
-void UBodyStateHand::TranslateHand(FVector shift)
+void UBodyStateHand::TranslateHand(FVector Shift)
 {
 	//Shift all fingers
-	Thumb->TranslateFinger(shift);
-	Index->TranslateFinger(shift);
-	Middle->TranslateFinger(shift);
-	Ring->TranslateFinger(shift);
-	Pinky->TranslateFinger(shift);
+	Thumb->TranslateFinger(Shift);
+	Index->TranslateFinger(Shift);
+	Middle->TranslateFinger(Shift);
+	Ring->TranslateFinger(Shift);
+	Pinky->TranslateFinger(Shift);
 }
 
-void UBodyStateHand::ChangeBasis(FRotator PreBase, FRotator PostBase, bool adjustVectors)
+void UBodyStateHand::ChangeBasis(FRotator PreBase, FRotator PostBase, bool AdjustVectors)
 {
 	//Change Basis for all fingers
-	Thumb->ChangeBasis(PreBase, PostBase, adjustVectors);
-	Index->ChangeBasis(PreBase, PostBase, adjustVectors);
-	Middle->ChangeBasis(PreBase, PostBase, adjustVectors);
-	Ring->ChangeBasis(PreBase, PostBase, adjustVectors);
-	Pinky->ChangeBasis(PreBase, PostBase, adjustVectors);
+	Thumb->ChangeBasis(PreBase, PostBase, AdjustVectors);
+	Index->ChangeBasis(PreBase, PostBase, AdjustVectors);
+	Middle->ChangeBasis(PreBase, PostBase, AdjustVectors);
+	Ring->ChangeBasis(PreBase, PostBase, AdjustVectors);
+	Pinky->ChangeBasis(PreBase, PostBase, AdjustVectors);
 }

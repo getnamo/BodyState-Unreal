@@ -52,19 +52,19 @@ void UBodyStateBone::SetEnabled(bool enable)
 	enable ? Alpha = 1.f: Alpha = 0.f;
 }
 
-void UBodyStateBone::ShiftBone(FVector shift)
+void UBodyStateBone::ShiftBone(FVector Shift)
 {
-	Transform.SetTranslation(Transform.GetTranslation() + shift);
+	Transform.SetTranslation(Transform.GetTranslation() + Shift);
 }
 
-void UBodyStateBone::ChangeBasis(FRotator PreBase, FRotator PostBase, bool adjustVectors)
+void UBodyStateBone::ChangeBasis(FRotator PreBase, FRotator PostBase, bool AdjustVectors)
 {
 	//Adjust the orientation
-	FRotator postCombine = CombineRotators(Orientation(), PostBase);
-	Transform.SetRotation(FQuat(CombineRotators(PreBase, postCombine)));
+	FRotator PostCombine = CombineRotators(Orientation(), PostBase);
+	Transform.SetRotation(FQuat(CombineRotators(PreBase, PostCombine)));
 
 	//Rotate our vector/s
-	if (adjustVectors) 
+	if (AdjustVectors)
 	{
 		Transform.SetTranslation(PostBase.RotateVector(Position()));
 	}

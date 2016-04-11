@@ -32,16 +32,15 @@ class BODYSTATE_API UBodyStateFinger : public UObject
 	float Confidence;
 
 
-
 	UFUNCTION(BlueprintCallable, Category = "BodyState Finger")
 	bool Enabled();
 
 	UFUNCTION(BlueprintCallable, Category = "BodyState Finger")
-	void SetEnabled(bool enable = true);
+	void SetEnabled(bool Enable = true);
 
 	UFUNCTION(BlueprintCallable, Category = "BodyState Finger")
-	void TranslateFinger(FVector shift);
+	void TranslateFinger(FVector Shift);
 
 	UFUNCTION(BlueprintCallable, Category = "BodyState Finger")
-	void ChangeBasis(FRotator PreBase, FRotator PostBase, bool adjustVectors = true);
+	void ChangeBasis(FRotator PreBase, FRotator PostBase, bool AdjustVectors = true);
 };

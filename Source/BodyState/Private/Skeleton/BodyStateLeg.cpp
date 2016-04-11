@@ -27,13 +27,13 @@ void UBodyStateLeg::SetEnabled(bool enable)
 	//Thumb->SetEnabled(enable);
 }
 
-void UBodyStateLeg::TranslateLeg(FVector shift)
+void UBodyStateLeg::TranslateLeg(FVector Shift)
 {
 	//Shift all bones
 	//Thumb->TranslateFinger(shift);
 }
 
-void UBodyStateLeg::ChangeBasis(FRotator PreBase, FRotator PostBase, bool adjustVectors)
+void UBodyStateLeg::ChangeBasis(FRotator PreBase, FRotator PostBase, bool AdjustVectors)
 {
 	//Change Basis for all bones
 	//Thumb->ChangeBasis(PreBase, PostBase, adjustVectors);

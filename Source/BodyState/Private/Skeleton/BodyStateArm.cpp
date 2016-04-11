@@ -13,9 +13,9 @@ bool UBodyStateArm::Enabled()
 	return Alpha == 1.f;
 }
 
-void UBodyStateArm::SetEnabled(bool enable)
+void UBodyStateArm::SetEnabled(bool Enable)
 {
-	if (enable)
+	if (Enable)
 	{
 		Alpha = 1.f;
 	}
@@ -25,13 +25,13 @@ void UBodyStateArm::SetEnabled(bool enable)
 	}
 }
 
-void UBodyStateArm::TranslateArm(FVector shift)
+void UBodyStateArm::TranslateArm(FVector Shift)
 {
 	//Shift all sub-bones
 	//Thumb->TranslateFinger(shift);
 }
 
-void UBodyStateArm::ChangeBasis(FRotator PreBase, FRotator PostBase, bool adjustVectors)
+void UBodyStateArm::ChangeBasis(FRotator PreBase, FRotator PostBase, bool AdjustVectors)
 {
 	//Change Basis for all bones
 	//Thumb->ChangeBasis(PreBase, PostBase, adjustVectors);

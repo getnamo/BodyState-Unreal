@@ -33,12 +33,12 @@ class BODYSTATE_API UBodyStateLeg : public UObject
 	bool Enabled();
 
 	UFUNCTION(BlueprintCallable, Category = "BodyState Hand")
-	void SetEnabled(bool enable = true);
+	void SetEnabled(bool Enable = true);
 
 	UFUNCTION(BlueprintCallable, Category = "BodyState Hand")
-	void TranslateLeg(FVector shift);
+	void TranslateLeg(FVector Shift);
 
 	UFUNCTION(BlueprintCallable, Category = "BodyState Hand")
-	void ChangeBasis(FRotator PreBase, FRotator PostBase, bool adjustVectors = true);
+	void ChangeBasis(FRotator PreBase, FRotator PostBase, bool AdjustVectors = true);
 
 };

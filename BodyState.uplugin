@@ -1,10 +1,9 @@
 {
 	"FileVersion": 3,
 	"Version": 1,
-	"VersionName": "0.1.0",
 	"FriendlyName": "BodyState",
 	"Description": "Abstract skeleton target for body tracking input devices. Query BodyStateSkeleton to get merged state.",
-	"Category": "Input",
+	"Category": "Input Abstraction",
 	"CreatedBy": "Getnamo",
 	"CreatedByURL": "https://github.com/getnamo/",
 	"DocsURL": "https://github.com/getnamo/bodystate-ue4",

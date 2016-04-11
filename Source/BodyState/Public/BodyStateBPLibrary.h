@@ -4,6 +4,7 @@
 
 #include "Engine.h"
 #include "BodyStateInputInterface.h"
+#include "BodyStateSkeleton.h"
 #include "BodyStateDeviceConfig.h"
 #include "BodyStateBPLibrary.generated.h"
 
@@ -35,7 +36,10 @@ class BODYSTATE_API UBodyStateBPLibrary : public UBlueprintFunctionLibrary
 	UFUNCTION(BlueprintCallable, Category = "Body State Input")
 	static bool DeviceDetached(int32 DeviceID);
 
-	//Define mixing and update interfaces - this isn't ready
+	UFUNCTION(BlueprintCallable, Category = "Body State Input")
+	static UBodyStateSkeleton* SkeletonForDevice(int32 DeviceID);
+
+	//Define mixing and update interfaces - this isn't ready yet, should it be called per skeleton or per bone?
 	//UFUNCTION(BlueprintCallable, Category = "Body State Input")
 	static bool AttachMergeAlgorithm(TFunction< void()> InFunction);
 };

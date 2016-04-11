@@ -19,6 +19,9 @@ class BODYSTATE_API UBodyStateSkeleton : public UObject
 	UPROPERTY(BlueprintReadOnly, Category = "BodyState Skeleton")
 	TArray<UBodyStateBone*> Bones;		//All bones stored here
 
+	//internal lookup for the bones
+	TMap<BodyStateUEHumanoidBone, UBodyStateBone*> BoneMap;
+
 	//Used for reference point calibration e.g. hydra base origin
 	UPROPERTY(BlueprintReadOnly, Category = "BodyState Skeleton")
 	FTransform RootOffset;

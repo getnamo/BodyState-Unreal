@@ -87,7 +87,10 @@ enum BodyStateUEHumanoidBone
 	BONE_CALF_TWIST_01_R,
 	BONE_FOOT_R,
 	BONE_BALL_R,
-	BONE_THIGH_TWIST_01_R
+	BONE_THIGH_TWIST_01_R,
 
 	//IK types ignored
+
+	//Final Entry for bone count/enumeration testing, never place an entry after this one
+	BONES_COUNT
 };

@@ -16,6 +16,8 @@ class BODYSTATE_API UBodyStateBone : public UObject
 	UPROPERTY(BlueprintReadWrite, Category = "BodyState Bone")
 	UBodyStateBone* Parent;
 
+	//todo: add convenience children link, this will be an array of all children to this bone
+
 	/** Blending Alpha */
 	UPROPERTY(BlueprintReadWrite, Category = "BodyState Bone")
 	float Alpha;
@@ -60,11 +62,11 @@ class BODYSTATE_API UBodyStateBone : public UObject
 	virtual bool Enabled();
 
 	UFUNCTION(BlueprintCallable, Category = "BodyState Bone")
-	virtual void SetEnabled(bool enable = true);
+	virtual void SetEnabled(bool Enable = true);
 
 	UFUNCTION(BlueprintCallable, Category = "BodyState Bone")
 	virtual void ShiftBone(FVector ShiftAmount);
 
 	UFUNCTION(BlueprintCallable, Category = "BodyState Bone")
-	virtual void ChangeBasis(FRotator PreBase, FRotator PostBase, bool adjustVectors = true);
+	virtual void ChangeBasis(FRotator PreBase, FRotator PostBase, bool AdjustVectors = true);
 };

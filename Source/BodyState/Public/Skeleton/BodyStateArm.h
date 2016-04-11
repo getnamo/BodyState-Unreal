@@ -31,7 +31,7 @@ class BODYSTATE_API UBodyStateArm : public UObject
 	UPROPERTY(BlueprintReadOnly, Category = "BodyState Hand Finger")
 	UBodyStateFinger* Pinky;
 	
-	//Arm and Wrist, NB: Consider moving this up the skeletal tree, for leap this is sufficient
+	//Arm and Wrist, NB: Consider moving this up the skeletal tree, for leap this is sufficient 
 	UPROPERTY(BlueprintReadOnly, Category = "BodyState Hand")
 	UBodyStateBone* Wrist;
 
@@ -45,12 +45,12 @@ class BODYSTATE_API UBodyStateArm : public UObject
 	bool Enabled();
 
 	UFUNCTION(BlueprintCallable, Category = "BodyState Hand")
-	void SetEnabled(bool enable = true);
+	void SetEnabled(bool Enable = true);
 
 	UFUNCTION(BlueprintCallable, Category = "BodyState Hand")
-	void TranslateArm(FVector shift);
+	void TranslateArm(FVector Shift);
 
 	UFUNCTION(BlueprintCallable, Category = "BodyState Hand")
-	void ChangeBasis(FRotator PreBase, FRotator PostBase, bool adjustVectors = true);
+	void ChangeBasis(FRotator PreBase, FRotator PostBase, bool AdjustVectors = true);
 
 };

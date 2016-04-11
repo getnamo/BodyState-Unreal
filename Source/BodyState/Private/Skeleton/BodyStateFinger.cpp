@@ -16,9 +16,9 @@ bool UBodyStateFinger::Enabled()
 	return Alpha == 1.f;
 }
 
-void UBodyStateFinger::SetEnabled(bool enable)
+void UBodyStateFinger::SetEnabled(bool Enable)
 {
-	if (enable)
+	if (Enable)
 	{
 		Alpha = 1.f;
 	}
@@ -28,26 +28,26 @@ void UBodyStateFinger::SetEnabled(bool enable)
 	}
 
 	//Forward to every finger
-	Metacarpal->SetEnabled(enable);
-	Proximal->SetEnabled(enable);
-	Intermediate->SetEnabled(enable);
-	Distal->SetEnabled(enable);
+	Metacarpal->SetEnabled(Enable);
+	Proximal->SetEnabled(Enable);
+	Intermediate->SetEnabled(Enable);
+	Distal->SetEnabled(Enable);
 }
 
-void UBodyStateFinger::TranslateFinger(FVector shift)
+void UBodyStateFinger::TranslateFinger(FVector Shift)
 {
 	//Shift all bones
-	Metacarpal->ShiftBone(shift);
-	Proximal->ShiftBone(shift);
-	Intermediate->ShiftBone(shift);
-	Distal->ShiftBone(shift);
+	Metacarpal->ShiftBone(Shift);
+	Proximal->ShiftBone(Shift);
+	Intermediate->ShiftBone(Shift);
+	Distal->ShiftBone(Shift);
 }
 
-void UBodyStateFinger::ChangeBasis(FRotator PreBase, FRotator PostBase, bool adjustVectors)
+void UBodyStateFinger::ChangeBasis(FRotator PreBase, FRotator PostBase, bool AdjustVectors)
 {
 	//Change Basis for all bones
-	Metacarpal->ChangeBasis(PreBase, PostBase, adjustVectors);
-	Proximal->ChangeBasis(PreBase, PostBase, adjustVectors);
-	Intermediate->ChangeBasis(PreBase, PostBase, adjustVectors);
-	Distal->ChangeBasis(PreBase, PostBase, adjustVectors);
+	Metacarpal->ChangeBasis(PreBase, PostBase, AdjustVectors);
+	Proximal->ChangeBasis(PreBase, PostBase, AdjustVectors);
+	Intermediate->ChangeBasis(PreBase, PostBase, AdjustVectors);
+	Distal->ChangeBasis(PreBase, PostBase, AdjustVectors);
 }

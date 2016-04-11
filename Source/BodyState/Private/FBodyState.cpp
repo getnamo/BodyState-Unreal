@@ -7,7 +7,7 @@
 #undef LOCTEXT_NAMESPACE
 
 #define LOCTEXT_NAMESPACE "BodyState"
-#define PLUGIN_VERSION "0.1.0"
+#define PLUGIN_VERSION "0.1.3"
 
 void FBodyState::StartupModule()
 {
@@ -33,7 +33,7 @@ TSharedPtr< class IInputDevice > FBodyState::CreateInputDevice(const TSharedRef<
 	UE_LOG(BodyStateLog, Log, TEXT("CreateInputDevice BodyState version %s"), TEXT(PLUGIN_VERSION));
 
 	//Expose all of our input mapping keys to the engine
-	//EKeys::AddKey(FKeyDetails(EKeysLeap::LeapLeftPinch, LOCTEXT("LeapLeftPinch", "Leap Left Pinch"), FKeyDetails::GamepadKey));
+	//EKeys::AddKey(FKeyDetails(EKeysLeap::BSLeftPinch, LOCTEXT("BSLeftPinch", "BS Left Pinch"), FKeyDetails::GamepadKey));
 
 	BodyStateInputDevice = MakeShareable(new FBodyStateInputDevice(InMessageHandler));
 
