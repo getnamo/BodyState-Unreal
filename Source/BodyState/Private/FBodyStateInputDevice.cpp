@@ -4,6 +4,7 @@
 #include "BodyStateInputInterface.h"
 #include "FBodyStateInputDevice.h"
 #include "BodyStateHMDSnapshot.h"
+#include "BodyStateDevice.h"
 
 #define MAX_HMD_SNAPSHOT_COUNT 10
 
@@ -15,9 +16,12 @@
 //Function call Utility
 void FBodyStateInputDevice::CallFunctionOnDelegates(TFunction< void(UObject*)> InFunction)
 {
-	for (UObject* EventDelegate : EventDelegates)
+	for (UBodyStateDevice* Device : Devices)
 	{
-		InFunction(EventDelegate);
+		if (Device->InputCallbackDelegate != nullptr) 
+		{
+			InFunction(Device->InputCallbackDelegate);
+		}
 	}
 }
 
@@ -72,7 +76,7 @@ void FBodyStateInputDevice::SetChannelValues(int32 ControllerId, const FForceFee
 	// Nothing necessary to do (boilerplate code to complete the interface)
 }
 
-void FBodyStateInputDevice::AddEventDelegate(UObject* EventDelegate)
+/*void FBodyStateInputDevice::AddEventDelegate(UObject* EventDelegate)
 {
 	if (EventDelegate->GetClass()->ImplementsInterface(UBodyStateInputInterface::StaticClass()))
 		EventDelegates.Add(EventDelegate);
@@ -85,7 +89,7 @@ void FBodyStateInputDevice::RemoveEventDelegate(UObject* EventDelegate)
 	EventDelegates.Remove(EventDelegate);
 
 	UE_LOG(BodyStateLog, Log, TEXT("RemoveEventDelegate (%d)."), EventDelegates.Num());
-}
+}*/
 
 /************************************************************************/
 /* Key Tick flow functions                                              */

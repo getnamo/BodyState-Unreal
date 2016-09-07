@@ -36,14 +36,16 @@ public:
 	/** Main Controller data and settings reference*/
 	//LeapControllerData ControllerData;
 	
-	//Event Delegation
-	void AddEventDelegate(UObject* EventDelegate);
-	void RemoveEventDelegate(UObject* EventDelegate);
+	//Event Delegation - this should be device delegation?
+	//void AddEventDelegate(UObject* EventDelegate);
+	//void RemoveEventDelegate(UObject* EventDelegate);
 
 private:
 	//Private UProperties
-	TArray<UObject*> EventDelegates;		//delegate storage
-	class HMDSnapshotSamples* HMDSamples;	//timewarp
+	TArray<class UBodyStateDevice*> Devices;		//device reference
+	//TArray<UObject*> EventDelegates;				//should we use separate event delegates? technically these are always linked to devices now, but is that always true?
+
+	class HMDSnapshotSamples* HMDSamples;			//Time-warp
 
 	//Private utility methods
 	void CallFunctionOnDelegates(TFunction< void(UObject*)> InFunction);	//lambda multi-cast convenience wrapper
