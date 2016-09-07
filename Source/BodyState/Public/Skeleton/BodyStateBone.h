@@ -69,4 +69,7 @@ class BODYSTATE_API UBodyStateBone : public UObject
 
 	UFUNCTION(BlueprintCallable, Category = "BodyState Bone")
 	virtual void ChangeBasis(FRotator PreBase, FRotator PostBase, bool AdjustVectors = true);
+
+	UFUNCTION(BlueprintPure, Category = "BodyState Bone")
+	virtual bool IsTracked();
 };

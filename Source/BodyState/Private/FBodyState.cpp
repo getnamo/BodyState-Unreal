@@ -7,7 +7,7 @@
 #undef LOCTEXT_NAMESPACE
 
 #define LOCTEXT_NAMESPACE "BodyState"
-#define PLUGIN_VERSION "0.1.3"
+#define PLUGIN_VERSION "0.1.2"
 
 void FBodyState::StartupModule()
 {

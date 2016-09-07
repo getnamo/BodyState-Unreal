@@ -1,6 +1,7 @@
 {
 	"FileVersion": 3,
 	"Version": 1,
+	"VersionName": "0.1.3",
 	"FriendlyName": "BodyState",
 	"Description": "Abstract skeleton target for body tracking input devices. Query BodyStateSkeleton to get merged state.",
 	"Category": "Input Abstraction",
