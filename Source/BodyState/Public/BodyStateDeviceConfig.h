@@ -8,8 +8,9 @@
 UENUM(BlueprintType)
 enum BodyStateDeviceInputType
 {
-	IMU_INPUT_TYPE,
-	POSITION_INPUT_TYPE,
+	INERTIAL_INPUT_TYPE,			//e.g. IMU with direct no external references
+	CAMERA_MOUNTED_INPUT_TYPE,		//e.g. leap motion
+	EXTERNAL_REFERENCE_INPUT_TYPE,	//e.g. lighthouse
 	MIXED_INPUT_TYPE
 };
 
