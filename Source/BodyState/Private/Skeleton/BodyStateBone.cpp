@@ -69,3 +69,8 @@ void UBodyStateBone::ChangeBasis(FRotator PreBase, FRotator PostBase, bool Adjus
 		Transform.SetTranslation(PostBase.RotateVector(Position()));
 	}
 }
+
+bool UBodyStateBone::IsTracked()
+{
+	return Confidence > 0.f;
+}
