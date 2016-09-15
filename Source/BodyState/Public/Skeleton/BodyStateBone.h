@@ -1,7 +1,50 @@
 #pragma once
 
-
 #include "BodyStateBone.generated.h"
+
+
+USTRUCT(BlueprintType)
+struct BODYSTATE_API FBodyStateBoneMeta
+{
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY()
+	bool Distinct;	//if not look into parents meta
+
+	UPROPERTY()
+	FString TrackingType;
+
+	UPROPERTY()
+	float Accuracy;
+
+	UPROPERTY()
+	float Confidence;
+};
+
+USTRUCT(BlueprintType)
+struct BODYSTATE_API FBodyStateBoneData
+{
+	GENERATED_USTRUCT_BODY()
+
+	/** Transform holding main bone values*/
+	UPROPERTY(BlueprintReadWrite, Category = "BodyState Bone Data")
+	FTransform Transform;
+
+	/** Bone Length */
+	UPROPERTY(BlueprintReadWrite, Category = "BodyState Bone Data")
+	float Length;
+
+	/** Tracking Confidence */
+	UPROPERTY(BlueprintReadWrite, Category = "BodyState Bone Data")
+	float Confidence;
+
+	FBodyStateBoneData()
+	{
+		Transform.SetScale3D(FVector(1.f));
+		Length = 0.f;
+		Confidence = 0.f;
+	}
+};
 
 UCLASS(BlueprintType)
 class BODYSTATE_API UBodyStateBone : public UObject
@@ -12,27 +55,20 @@ class BODYSTATE_API UBodyStateBone : public UObject
 	UPROPERTY(BlueprintReadWrite, Category = "BodyState Bone")
 	FString Name;
 
+	UPROPERTY(BlueprintReadWrite, Category = "BodyState Bone")
+	FBodyStateBoneData BoneData;
+
 	/** Parent Bone - If available */
 	UPROPERTY(BlueprintReadWrite, Category = "BodyState Bone")
 	UBodyStateBone* Parent;
 
-	//todo: add convenience children link, this will be an array of all children to this bone
+	/** Children Bones - If available */
+	UPROPERTY(BlueprintReadWrite, Category = "BodyState Bone")
+	TArray<UBodyStateBone*> Children;
 
 	/** Blending Alpha */
 	UPROPERTY(BlueprintReadWrite, Category = "BodyState Bone")
 	float Alpha;
-
-	/** Tracking Confidence */
-	UPROPERTY(BlueprintReadWrite, Category = "BodyState Bone")
-	float Confidence;
-
-	/** Bone Length */
-	UPROPERTY(BlueprintReadWrite, Category = "BodyState Bone")
-	float Length;
-
-	/** Transform holding main bone values*/
-	UPROPERTY(BlueprintReadWrite, Category = "BodyState Bone")
-	FTransform Transform;
 
 	/** Bone Position */
 	UFUNCTION(BlueprintPure, Category = "BodyState Bone")
@@ -40,7 +76,6 @@ class BODYSTATE_API UBodyStateBone : public UObject
 
 	UFUNCTION(BlueprintCallable, Category = "BodyState Bone")
 	void SetPosition(const FVector& InPosition);
-
 
 	/** Bone Orientation */
 	UFUNCTION(BlueprintPure, Category = "BodyState Bone")
@@ -56,6 +91,10 @@ class BODYSTATE_API UBodyStateBone : public UObject
 	UFUNCTION(BlueprintCallable, Category = "BodyState Bone")
 	void SetScale(const FVector& InScale);
 
+
+	/** Re-initialize from bone data */
+	UFUNCTION(BlueprintCallable, Category = "BodyState Bone")
+	void InitializeFromBoneData(const FBodyStateBoneData& InData);
 
 	//Convenience Functions
 	UFUNCTION(BlueprintCallable, Category = "BodyState Bone")

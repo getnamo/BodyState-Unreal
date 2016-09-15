@@ -24,34 +24,19 @@ UBodyStateBone* UBodyStateSkeleton::RootBone()
 	return Bones[BodyStateUEHumanoidBone::BONE_ROOT];
 }
 
-UBodyStateArm* UBodyStateSkeleton::LeftArm()
+UBodyStateBone* UBodyStateSkeleton::LeftHand()
 {
-	UE_LOG(BodyStateLog, Warning, TEXT("Not implemented yet."));
-	return nullptr;
+	return Bones[BodyStateUEHumanoidBone::BONE_HAND_L];
 }
 
-UBodyStateArm* UBodyStateSkeleton::RightArm()
+UBodyStateBone* UBodyStateSkeleton::RightHand()
 {
-	UE_LOG(BodyStateLog, Warning, TEXT("Not implemented yet."));
-	return nullptr;
+	return Bones[BodyStateUEHumanoidBone::BONE_HAND_R];
 }
 
-UBodyStateLeg* UBodyStateSkeleton::LeftLeg()
+UBodyStateBone* UBodyStateSkeleton::Head()
 {
-	UE_LOG(BodyStateLog, Warning, TEXT("Not implemented yet."));
-	return nullptr;
-}
-
-UBodyStateLeg* UBodyStateSkeleton::RightLeg()
-{
-	UE_LOG(BodyStateLog, Warning, TEXT("Not implemented yet."));
-	return nullptr;
-}
-
-UBodyStateTorso* UBodyStateSkeleton::Torso()
-{
-	UE_LOG(BodyStateLog, Warning, TEXT("Not implemented yet."));
-	return nullptr;
+	return Bones[BodyStateUEHumanoidBone::BONE_SPINE_03];
 }
 
 UBodyStateBone* UBodyStateSkeleton::BoneForEnum(TEnumAsByte<BodyStateUEHumanoidBone> Bone)

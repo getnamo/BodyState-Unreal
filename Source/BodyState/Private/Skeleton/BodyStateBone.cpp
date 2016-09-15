@@ -6,40 +6,49 @@
 UBodyStateBone::UBodyStateBone(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
-	Transform.SetScale3D(FVector(1.f));
+	Alpha = 0.f;
 }
 
 FVector UBodyStateBone::Position()
 {
-	return Transform.GetTranslation();
+	return BoneData.Transform.GetTranslation();
 }
 
 
 void UBodyStateBone::SetPosition(const FVector& InPosition)
 {
-	Transform.SetTranslation(InPosition);
+	BoneData.Transform.SetTranslation(InPosition);
 }
 
 FRotator UBodyStateBone::Orientation()
 {
-	return Transform.GetRotation().Rotator();
+	return BoneData.Transform.GetRotation().Rotator();
 }
 
 
 void UBodyStateBone::SetOrientation(const FRotator& InOrientation)
 {
-	Transform.SetRotation(InOrientation.Quaternion());
+	BoneData.Transform.SetRotation(InOrientation.Quaternion());
 }
 
 FVector UBodyStateBone::Scale()
 {
-	return Transform.GetScale3D();
+	return BoneData.Transform.GetScale3D();
 }
 
 
 void UBodyStateBone::SetScale(const FVector& InScale)
 {
-	Transform.SetScale3D(InScale);
+	BoneData.Transform.SetScale3D(InScale);
+}
+
+
+void UBodyStateBone::InitializeFromBoneData(const FBodyStateBoneData& InData)
+{
+	//Set the bone data
+	BoneData = InData;
+
+	//Re-initialize default values
 }
 
 bool UBodyStateBone::Enabled()
@@ -54,23 +63,23 @@ void UBodyStateBone::SetEnabled(bool enable)
 
 void UBodyStateBone::ShiftBone(FVector Shift)
 {
-	Transform.SetTranslation(Transform.GetTranslation() + Shift);
+	BoneData.Transform.SetTranslation(BoneData.Transform.GetTranslation() + Shift);
 }
 
 void UBodyStateBone::ChangeBasis(FRotator PreBase, FRotator PostBase, bool AdjustVectors)
 {
 	//Adjust the orientation
 	FRotator PostCombine = CombineRotators(Orientation(), PostBase);
-	Transform.SetRotation(FQuat(CombineRotators(PreBase, PostCombine)));
+	BoneData.Transform.SetRotation(FQuat(CombineRotators(PreBase, PostCombine)));
 
 	//Rotate our vector/s
 	if (AdjustVectors)
 	{
-		Transform.SetTranslation(PostBase.RotateVector(Position()));
+		BoneData.Transform.SetTranslation(PostBase.RotateVector(Position()));
 	}
 }
 
 bool UBodyStateBone::IsTracked()
 {
-	return Confidence > 0.f;
+	return BoneData.Confidence > 0.f;
 }

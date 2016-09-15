@@ -3,9 +3,6 @@
 #pragma once
 
 #include "BodyStateBone.h"
-#include "BodyStateArm.h"
-#include "BodyStateLeg.h"
-#include "BodyStateTorso.h"
 #include "BodyStateEnums.h"
 #include "BodyStateSkeleton.generated.h"
 
@@ -26,7 +23,6 @@ class BODYSTATE_API UBodyStateSkeleton : public UObject
 	UPROPERTY(BlueprintReadOnly, Category = "BodyState Skeleton")
 	FTransform RootOffset;
 
-
 	//Convenience getters and object wrappers - offers a convenient perspective on the data
 
 	//We use a general concept hierarchy as a convenience wrapper around bones
@@ -35,33 +31,19 @@ class BODYSTATE_API UBodyStateSkeleton : public UObject
 	UFUNCTION(BlueprintPure, Category = "BodyState Skeleton")
 	UBodyStateBone* RootBone();
 
+	//Convenience Links
+
 	//Arms & Hands
 	UFUNCTION(BlueprintPure, Category = "BodyState Skeleton")
-	UBodyStateArm* LeftArm();
+	UBodyStateBone* LeftHand();
 
 	UFUNCTION(BlueprintPure, Category = "BodyState Skeleton")
-	UBodyStateArm* RightArm();
-
-	//Leg & Feet
-	UFUNCTION(BlueprintPure, Category = "BodyState Skeleton")
-	UBodyStateLeg* LeftLeg();
-
-	UFUNCTION(BlueprintPure, Category = "BodyState Skeleton")
-	UBodyStateLeg* RightLeg();
+	UBodyStateBone* RightHand();
 
 	//Spine & Head
+
 	UFUNCTION(BlueprintPure, Category = "BodyState Skeleton")
-	UBodyStateTorso* Torso();
-
-	//Todo: implement contextual fetch for fingers / hands / head
-	//UFUNCTION(BlueprintPure, Category = "BodyState Skeleton")
-	//TArray<UBodyStateFinger> Fingers();
-
-	//UFUNCTION(BlueprintPure, Category = "BodyState Skeleton")
-	//TArray<UBodyStateHand> Hands();
-
-	//UFUNCTION(BlueprintPure, Category = "BodyState Skeleton")
-	//UBodyStateBone* Head();
+	UBodyStateBone* Head();
 
 	/*Get Bone data by enum*/
 	UFUNCTION(BlueprintPure, Category = "BodyState Skeleton")
