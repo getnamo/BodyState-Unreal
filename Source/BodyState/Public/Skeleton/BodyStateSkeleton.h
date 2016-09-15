@@ -61,8 +61,6 @@ struct BODYSTATE_API FNamedSkeletonData
 	TArray<FNamedBoneMeta> UniqueMetas;
 };
 
-//TODO: add optimized named transforms
-
 
 UCLASS()
 class BODYSTATE_API UBodyStateSkeleton : public UObject
@@ -80,15 +78,11 @@ class BODYSTATE_API UBodyStateSkeleton : public UObject
 	UPROPERTY(BlueprintReadOnly, Category = "BodyState Skeleton")
 	FTransform RootOffset;
 
-	//Convenience getters and object wrappers - offers a convenient perspective on the data
-
-	//We use a general concept hierarchy as a convenience wrapper around bones
+	//Convenience bone getters
 
 	//Root
 	UFUNCTION(BlueprintPure, Category = "BodyState Skeleton")
 	UBodyStateBone* RootBone();
-
-	//Convenience Links
 
 	//Arms & Hands
 	UFUNCTION(BlueprintPure, Category = "BodyState Skeleton")
@@ -98,7 +92,6 @@ class BODYSTATE_API UBodyStateSkeleton : public UObject
 	UBodyStateBone* RightHand();
 
 	//Spine & Head
-
 	UFUNCTION(BlueprintPure, Category = "BodyState Skeleton")
 	UBodyStateBone* Head();
 
@@ -112,10 +105,21 @@ class BODYSTATE_API UBodyStateSkeleton : public UObject
 
 
 	//Replication and Setting Data
-	TArray<FNamedBoneData> TrackedBoneData();
-	TArray<FNamedTransform> TrackedBasicBones();
-	TArray<FNamedBoneData> TrackedAdvancedBones();
-	TArray<FNamedBoneMeta> UniqueBoneMetas();
+
+	//Setting Bone Data
+	UFUNCTION(BlueprintCallable, Category = "BodyState Skeleton Setting")
+	void ResetToDefaultSkeleton();
+
+	UFUNCTION(BlueprintCallable, Category = "BodyState Skeleton Setting")
+	void SetDataForBone(const FBodyStateBoneData& BoneData, TEnumAsByte<EBodyStateUEHumanoidBone> Bone);
+
+	UFUNCTION(BlueprintCallable, Category = "BodyState Skeleton Setting")
+	void SetTransformForBone(const FTransform& Transform, TEnumAsByte<EBodyStateUEHumanoidBone> Bone);
+
+	UFUNCTION(BlueprintCallable, Category = "BodyState Skeleton Setting")
+	void SetMetaForBone(const FBodyStateBoneMeta& BoneMeta, TEnumAsByte<EBodyStateUEHumanoidBone> Bone);
+
+
 	FNamedSkeletonData GetMinimalNamedSkeletonData();	//key replication getter
 	void SetFromNamedSkeletonData(const FNamedSkeletonData& NamedSkeletonData);	//key replication setter
 
@@ -126,16 +130,10 @@ class BODYSTATE_API UBodyStateSkeleton : public UObject
 	UFUNCTION(NetMulticast, Unreliable)
 	void Multi_UpdateBodyState(const FNamedSkeletonData InBodyStateSkeleton);
 
-	void ResetToDefaultSkeleton();
+protected:
 
-	UFUNCTION(BlueprintCallable, Category = "BodyState Skeleton Setting")
-	void SetDataForBone(const FBodyStateBoneData& BoneData, TEnumAsByte<EBodyStateUEHumanoidBone> Bone);
-	
-	UFUNCTION(BlueprintCallable, Category = "BodyState Skeleton Setting")
-	void SetTransformForBone(const FTransform& Transform, TEnumAsByte<EBodyStateUEHumanoidBone> Bone);
-
-	UFUNCTION(BlueprintCallable, Category = "BodyState Skeleton Setting")
-	void SetMetaForBone(const FBodyStateBoneMeta& BoneMeta, TEnumAsByte<EBodyStateUEHumanoidBone> Bone);
-
-
+	TArray<FNamedBoneData> TrackedBoneData();
+	TArray<FNamedTransform> TrackedBasicBones();
+	TArray<FNamedBoneData> TrackedAdvancedBones();
+	TArray<FNamedBoneMeta> UniqueBoneMetas();
 };
