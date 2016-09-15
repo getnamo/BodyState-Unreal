@@ -6,6 +6,45 @@
 #include "BodyStateEnums.h"
 #include "BodyStateSkeleton.generated.h"
 
+//Used for replication
+USTRUCT()
+struct BODYSTATE_API FNamedBoneData
+{
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY()
+	FBodyStateBoneData Data;
+
+	UPROPERTY()
+	TEnumAsByte<EBodyStateUEHumanoidBone> Name;
+};
+
+//Used for replication
+USTRUCT()
+struct BODYSTATE_API FNamedBoneMeta
+{
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY()
+	FBodyStateBoneMeta Meta;
+
+	UPROPERTY()
+	TEnumAsByte<EBodyStateUEHumanoidBone> Name;
+};
+
+//Used for replication
+USTRUCT()
+struct BODYSTATE_API FNamedSkeletonData
+{
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY()
+	TArray<FNamedBoneData> TrackedBones;
+
+	UPROPERTY()
+	TArray<FNamedBoneMeta> UniqueMetas;
+};
+
 
 UCLASS()
 class BODYSTATE_API UBodyStateSkeleton : public UObject
@@ -17,7 +56,7 @@ class BODYSTATE_API UBodyStateSkeleton : public UObject
 	TArray<UBodyStateBone*> Bones;		//All bones stored here
 
 	//internal lookup for the bones
-	TMap<BodyStateUEHumanoidBone, UBodyStateBone*> BoneMap;
+	TMap<EBodyStateUEHumanoidBone, UBodyStateBone*> BoneMap;
 
 	//Used for reference point calibration e.g. hydra base origin
 	UPROPERTY(BlueprintReadOnly, Category = "BodyState Skeleton")
@@ -47,9 +86,14 @@ class BODYSTATE_API UBodyStateSkeleton : public UObject
 
 	/*Get Bone data by enum*/
 	UFUNCTION(BlueprintPure, Category = "BodyState Skeleton")
-	class UBodyStateBone* BoneForEnum(TEnumAsByte<BodyStateUEHumanoidBone> Bone);
+	class UBodyStateBone* BoneForEnum(TEnumAsByte<EBodyStateUEHumanoidBone> Bone);
 
 	/*Get Bone data by name matching*/
 	UFUNCTION(BlueprintPure, Category = "BodyState Skeleton")
 	class UBodyStateBone* BoneNamed(const FString& Name);
+
+
+	//Replication
+	TArray<FNamedBoneData> TrackedBoneData();
+	TArray<FNamedBoneMeta> UniqueBoneMeta();
 };

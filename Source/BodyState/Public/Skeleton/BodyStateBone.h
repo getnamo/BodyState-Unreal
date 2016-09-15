@@ -100,6 +100,9 @@ class BODYSTATE_API UBodyStateBone : public UObject
 	UFUNCTION(BlueprintCallable, Category = "BodyState Bone")
 	void SetScale(const FVector& InScale);
 
+	/** Get Unique Meta from first unique parent*/
+	UFUNCTION(BlueprintPure, Category = "BodyState Bone")
+	FBodyStateBoneMeta UniqueMeta();
 
 	/** Re-initialize from bone data */
 	void InitializeFromBoneData(const FBodyStateBoneData& InData);

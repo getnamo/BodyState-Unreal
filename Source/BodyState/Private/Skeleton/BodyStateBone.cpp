@@ -43,6 +43,25 @@ void UBodyStateBone::SetScale(const FVector& InScale)
 }
 
 
+FBodyStateBoneMeta UBodyStateBone::UniqueMeta()
+{
+	//Is our meta unique?
+	if (Meta.ParentDistinctMeta)
+	{
+		return Meta;
+	}
+
+	//Valid parent? go up the chain
+	if (Parent != nullptr)
+	{
+		return Parent->UniqueMeta();
+	}
+
+	//No unique meta found
+	FBodyStateBoneMeta InvalidMeta;
+	return InvalidMeta;
+}
+
 void UBodyStateBone::InitializeFromBoneData(const FBodyStateBoneData& InData)
 {
 	//Set the bone data

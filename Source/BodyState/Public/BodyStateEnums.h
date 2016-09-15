@@ -12,7 +12,7 @@ enum BodyStateHandType
 
 //Standard UE skeleton - Good Baseline for now
 UENUM(BlueprintType)
-enum BodyStateUEHumanoidBone
+enum EBodyStateUEHumanoidBone
 {
 	
 	BONE_ROOT,
