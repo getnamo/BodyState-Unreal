@@ -20,6 +20,7 @@ struct BODYSTATE_API FBodyStateBoneMeta
 	UPROPERTY()
 	float Accuracy;
 
+
 	FBodyStateBoneMeta()
 	{
 		ParentDistinctMeta = false;
@@ -37,14 +38,37 @@ struct BODYSTATE_API FBodyStateBoneData
 	UPROPERTY(BlueprintReadWrite, Category = "BodyState Bone Data")
 	FTransform Transform;
 
+	/** If this bone tracks more than just transform*/
+	UPROPERTY(BlueprintReadWrite, Category = "BodyState Bone Data")
+	bool AdvancedBoneType;
+
 	/** Tracking Confidence */
 	UPROPERTY(BlueprintReadWrite, Category = "BodyState Bone Data")
 	float Confidence;
+
+	/** Blending Alpha */
+	UPROPERTY(BlueprintReadWrite, Category = "BodyState Bone Data")
+	float Alpha;
+
+	/** Bone Length */
+	UPROPERTY(BlueprintReadWrite, Category = "BodyState Bone Data")
+	float Length;
 
 	FBodyStateBoneData()
 	{
 		Transform.SetScale3D(FVector(1.f));
 		Confidence = 0.f;
+		Alpha = 1.f;
+		Length = 1.f;
+		AdvancedBoneType = false;
+	}
+
+	/** If you're only tracking transform */
+	void SetFromTransform(FTransform InTransform)
+	{
+		FBodyStateBoneData();
+		Transform = InTransform;
+		Confidence = 1.f;
 	}
 };
 
@@ -70,14 +94,6 @@ class BODYSTATE_API UBodyStateBone : public UObject
 	/** Children Bones - If available */
 	UPROPERTY(BlueprintReadWrite, Category = "BodyState Bone")
 	TArray<UBodyStateBone*> Children;
-
-	/** Blending Alpha */
-	UPROPERTY(BlueprintReadWrite, Category = "BodyState Bone")
-	float Alpha;
-
-	/** Bone Length */
-	UPROPERTY(BlueprintReadWrite, Category = "BodyState Bone Data")
-	float Length;
 
 	/** Bone Position */
 	UFUNCTION(BlueprintPure, Category = "BodyState Bone")

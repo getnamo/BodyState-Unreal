@@ -4,7 +4,7 @@
 #include "BodyStateBone.h"
 
 UBodyStateBone::UBodyStateBone(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer), Alpha(0.f), Length(0.f)
+	: Super(ObjectInitializer)
 {
 
 }
@@ -74,18 +74,16 @@ void UBodyStateBone::InitializeFromBoneData(const FBodyStateBoneData& InData)
 
 void UBodyStateBone::Initialize()
 {
-	Alpha = 0.f;
-	Length = 0.f;
 }
 
 bool UBodyStateBone::Enabled()
 {
-	return Alpha == 1.f;
+	return BoneData.Alpha == 1.f;
 }
 
 void UBodyStateBone::SetEnabled(bool enable)
 {
-	enable ? Alpha = 1.f: Alpha = 0.f;
+	enable ? BoneData.Alpha = 1.f: BoneData.Alpha = 0.f;
 }
 
 void UBodyStateBone::ShiftBone(FVector Shift)

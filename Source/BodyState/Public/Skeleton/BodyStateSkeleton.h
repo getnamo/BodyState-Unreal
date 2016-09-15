@@ -21,6 +21,19 @@ struct BODYSTATE_API FNamedBoneData
 
 //Used for replication
 USTRUCT()
+struct BODYSTATE_API FNamedTransform
+{
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY()
+	FTransform Transform;
+
+	UPROPERTY()
+	TEnumAsByte<EBodyStateUEHumanoidBone> Name;
+};
+
+//Used for replication
+USTRUCT()
 struct BODYSTATE_API FNamedBoneMeta
 {
 	GENERATED_USTRUCT_BODY()
@@ -39,11 +52,16 @@ struct BODYSTATE_API FNamedSkeletonData
 	GENERATED_USTRUCT_BODY()
 
 	UPROPERTY()
-	TArray<FNamedBoneData> TrackedBones;
+	TArray<FNamedBoneData> TrackedAdvancedBones;
+
+	UPROPERTY()
+	TArray<FNamedTransform> TrackedBasicBones;
 
 	UPROPERTY()
 	TArray<FNamedBoneMeta> UniqueMetas;
 };
+
+//TODO: add optimized named transforms
 
 
 UCLASS()
@@ -93,7 +111,31 @@ class BODYSTATE_API UBodyStateSkeleton : public UObject
 	class UBodyStateBone* BoneNamed(const FString& Name);
 
 
-	//Replication
+	//Replication and Setting Data
 	TArray<FNamedBoneData> TrackedBoneData();
-	TArray<FNamedBoneMeta> UniqueBoneMeta();
+	TArray<FNamedTransform> TrackedBasicBones();
+	TArray<FNamedBoneData> TrackedAdvancedBones();
+	TArray<FNamedBoneMeta> UniqueBoneMetas();
+	FNamedSkeletonData GetMinimalNamedSkeletonData();	//key replication getter
+	void SetFromNamedSkeletonData(const FNamedSkeletonData& NamedSkeletonData);	//key replication setter
+
+	//Replication
+	UFUNCTION(Unreliable, Server, WithValidation)
+	void ServerUpdateBodyState(const FNamedSkeletonData InBodyStateSkeleton);
+
+	UFUNCTION(NetMulticast, Unreliable)
+	void Multi_UpdateBodyState(const FNamedSkeletonData InBodyStateSkeleton);
+
+	void ResetToDefaultSkeleton();
+
+	UFUNCTION(BlueprintCallable, Category = "BodyState Skeleton Setting")
+	void SetDataForBone(const FBodyStateBoneData& BoneData, TEnumAsByte<EBodyStateUEHumanoidBone> Bone);
+	
+	UFUNCTION(BlueprintCallable, Category = "BodyState Skeleton Setting")
+	void SetTransformForBone(const FTransform& Transform, TEnumAsByte<EBodyStateUEHumanoidBone> Bone);
+
+	UFUNCTION(BlueprintCallable, Category = "BodyState Skeleton Setting")
+	void SetMetaForBone(const FBodyStateBoneMeta& BoneMeta, TEnumAsByte<EBodyStateUEHumanoidBone> Bone);
+
+
 };

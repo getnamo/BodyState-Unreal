@@ -50,6 +50,7 @@ class UBodyStateBone* UBodyStateSkeleton::BoneNamed(const FString& Name)
 	return nullptr;
 }
 
+//All types of bones
 TArray<FNamedBoneData> UBodyStateSkeleton::TrackedBoneData()
 {
 	TArray<FNamedBoneData> ResultArray;
@@ -69,7 +70,47 @@ TArray<FNamedBoneData> UBodyStateSkeleton::TrackedBoneData()
 	return ResultArray;
 }
 
-TArray<FNamedBoneMeta> UBodyStateSkeleton::UniqueBoneMeta()
+//Only basic ones
+TArray<FNamedTransform> UBodyStateSkeleton::TrackedBasicBones()
+{
+	TArray<FNamedTransform> ResultArray;
+
+	for (int i = 0; i < Bones.Num(); i++)
+	{
+		if (Bones[i]->IsTracked() && !Bones[i]->BoneData.AdvancedBoneType)
+		{
+			FNamedTransform NamedData;
+			NamedData.Transform = Bones[i]->BoneData.Transform;
+			NamedData.Name = EBodyStateUEHumanoidBone(i);
+
+			ResultArray.Add(NamedData);
+		}
+	}
+
+	return ResultArray;
+}
+
+//Only advanced ones
+TArray<FNamedBoneData> UBodyStateSkeleton::TrackedAdvancedBones()
+{
+	TArray<FNamedBoneData> ResultArray;
+
+	for (int i = 0; i < Bones.Num(); i++)
+	{
+		if (Bones[i]->IsTracked() && Bones[i]->BoneData.AdvancedBoneType)
+		{
+			FNamedBoneData NamedData;
+			NamedData.Data = Bones[i]->BoneData;
+			NamedData.Name = EBodyStateUEHumanoidBone(i);
+
+			ResultArray.Add(NamedData);
+		}
+	}
+
+	return ResultArray;
+}
+
+TArray<FNamedBoneMeta> UBodyStateSkeleton::UniqueBoneMetas()
 {
 	TArray<FNamedBoneMeta> ResultArray;
 
@@ -86,4 +127,83 @@ TArray<FNamedBoneMeta> UBodyStateSkeleton::UniqueBoneMeta()
 	}
 
 	return ResultArray;
+}
+
+FNamedSkeletonData UBodyStateSkeleton::GetMinimalNamedSkeletonData()
+{
+	FNamedSkeletonData NamedSkeleton;
+
+	NamedSkeleton.TrackedBasicBones = TrackedBasicBones();
+	NamedSkeleton.TrackedAdvancedBones = TrackedAdvancedBones();
+	NamedSkeleton.UniqueMetas = UniqueBoneMetas();
+
+	return NamedSkeleton;
+}
+
+void UBodyStateSkeleton::ResetToDefaultSkeleton()
+{
+	for (int i = 0; i < Bones.Num(); i++)
+	{
+		Bones[i]->Initialize();
+	}
+}
+
+void UBodyStateSkeleton::SetDataForBone(const FBodyStateBoneData& BoneData, TEnumAsByte<EBodyStateUEHumanoidBone> Bone)
+{
+	Bones[Bone]->BoneData = BoneData;
+}
+
+void UBodyStateSkeleton::SetTransformForBone(const FTransform& Transform, TEnumAsByte<EBodyStateUEHumanoidBone> Bone)
+{
+	Bones[Bone]->BoneData.SetFromTransform(Transform);
+}
+
+void UBodyStateSkeleton::SetMetaForBone(const FBodyStateBoneMeta& BoneMeta, TEnumAsByte<EBodyStateUEHumanoidBone> Bone)
+{
+	Bones[Bone]->Meta = BoneMeta;
+}
+
+void UBodyStateSkeleton::SetFromNamedSkeletonData(const FNamedSkeletonData& NamedSkeletonData)
+{
+	//Clear our skeleton data
+	ResetToDefaultSkeleton();
+
+	//Set the tracked bone data
+
+	//Basic
+	for (int i = 0; i < NamedSkeletonData.TrackedBasicBones.Num(); i++)
+	{
+		const FNamedTransform& NamedData = NamedSkeletonData.TrackedBasicBones[i];
+		SetTransformForBone(NamedData.Transform, NamedData.Name);
+	}
+
+	//Advanced
+	for (int i = 0; i < NamedSkeletonData.TrackedAdvancedBones.Num(); i++)
+	{
+		const FNamedBoneData& NamedData = NamedSkeletonData.TrackedAdvancedBones[i];
+		SetDataForBone(NamedData.Data, NamedData.Name);
+	}
+
+	//Add the unique meta for each bone
+	for (int i = 0; i < NamedSkeletonData.UniqueMetas.Num(); i++)
+	{
+		const FNamedBoneMeta& NamedMeta = NamedSkeletonData.UniqueMetas[i];
+		SetMetaForBone(NamedMeta.Meta, NamedMeta.Name);
+	}
+}
+
+bool UBodyStateSkeleton::ServerUpdateBodyState_Validate(FNamedSkeletonData BodyState)
+{
+	return true;
+}
+
+void UBodyStateSkeleton::ServerUpdateBodyState_Implementation(const FNamedSkeletonData InBodyStateSkeleton)
+{
+	// Multi cast to everybody
+	Multi_UpdateBodyState(InBodyStateSkeleton);
+}
+
+void UBodyStateSkeleton::Multi_UpdateBodyState_Implementation(const FNamedSkeletonData InBodyStateSkeleton)
+{
+	SetFromNamedSkeletonData(InBodyStateSkeleton);
 }
