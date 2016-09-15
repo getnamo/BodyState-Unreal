@@ -8,17 +8,24 @@ struct BODYSTATE_API FBodyStateBoneMeta
 {
 	GENERATED_USTRUCT_BODY()
 
+	/** Is this meta data distinct from parents? */
 	UPROPERTY()
-	bool Distinct;	//if not look into parents meta
+	bool ParentDistinctMeta;
 
+	/** Name of tracking type*/
 	UPROPERTY()
 	FString TrackingType;
 
+	/** Accuracy in cm of tracking data if distinct */
 	UPROPERTY()
 	float Accuracy;
 
-	UPROPERTY()
-	float Confidence;
+	FBodyStateBoneMeta()
+	{
+		ParentDistinctMeta = false;
+		TrackingType = FString(TEXT("Unknown"));
+		Accuracy = 0.f;
+	}
 };
 
 USTRUCT(BlueprintType)
@@ -30,10 +37,6 @@ struct BODYSTATE_API FBodyStateBoneData
 	UPROPERTY(BlueprintReadWrite, Category = "BodyState Bone Data")
 	FTransform Transform;
 
-	/** Bone Length */
-	UPROPERTY(BlueprintReadWrite, Category = "BodyState Bone Data")
-	float Length;
-
 	/** Tracking Confidence */
 	UPROPERTY(BlueprintReadWrite, Category = "BodyState Bone Data")
 	float Confidence;
@@ -41,7 +44,6 @@ struct BODYSTATE_API FBodyStateBoneData
 	FBodyStateBoneData()
 	{
 		Transform.SetScale3D(FVector(1.f));
-		Length = 0.f;
 		Confidence = 0.f;
 	}
 };
@@ -58,6 +60,9 @@ class BODYSTATE_API UBodyStateBone : public UObject
 	UPROPERTY(BlueprintReadWrite, Category = "BodyState Bone")
 	FBodyStateBoneData BoneData;
 
+	UPROPERTY(BlueprintReadWrite, Category = "BodyState Bone")
+	FBodyStateBoneMeta Meta;
+
 	/** Parent Bone - If available */
 	UPROPERTY(BlueprintReadWrite, Category = "BodyState Bone")
 	UBodyStateBone* Parent;
@@ -69,6 +74,10 @@ class BODYSTATE_API UBodyStateBone : public UObject
 	/** Blending Alpha */
 	UPROPERTY(BlueprintReadWrite, Category = "BodyState Bone")
 	float Alpha;
+
+	/** Bone Length */
+	UPROPERTY(BlueprintReadWrite, Category = "BodyState Bone Data")
+	float Length;
 
 	/** Bone Position */
 	UFUNCTION(BlueprintPure, Category = "BodyState Bone")
@@ -93,8 +102,8 @@ class BODYSTATE_API UBodyStateBone : public UObject
 
 
 	/** Re-initialize from bone data */
-	UFUNCTION(BlueprintCallable, Category = "BodyState Bone")
 	void InitializeFromBoneData(const FBodyStateBoneData& InData);
+	void Initialize();
 
 	//Convenience Functions
 	UFUNCTION(BlueprintCallable, Category = "BodyState Bone")

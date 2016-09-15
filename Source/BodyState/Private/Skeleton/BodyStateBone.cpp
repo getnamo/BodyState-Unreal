@@ -4,9 +4,9 @@
 #include "BodyStateBone.h"
 
 UBodyStateBone::UBodyStateBone(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer)
+	: Super(ObjectInitializer), Alpha(0.f), Length(0.f)
 {
-	Alpha = 0.f;
+
 }
 
 FVector UBodyStateBone::Position()
@@ -49,6 +49,14 @@ void UBodyStateBone::InitializeFromBoneData(const FBodyStateBoneData& InData)
 	BoneData = InData;
 
 	//Re-initialize default values
+	Initialize();
+}
+
+
+void UBodyStateBone::Initialize()
+{
+	Alpha = 0.f;
+	Length = 0.f;
 }
 
 bool UBodyStateBone::Enabled()
