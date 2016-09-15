@@ -36,7 +36,7 @@ UBodyStateBone* UBodyStateSkeleton::RightHand()
 
 UBodyStateBone* UBodyStateSkeleton::Head()
 {
-	return Bones[BodyStateUEHumanoidBone::BONE_SPINE_03];
+	return Bones[BodyStateUEHumanoidBone::BONE_HEAD];
 }
 
 UBodyStateBone* UBodyStateSkeleton::BoneForEnum(TEnumAsByte<BodyStateUEHumanoidBone> Bone)
