@@ -18,58 +18,48 @@
  *CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *************************************************************************************************************************************/
 
-using UnrealBuildTool;
+#pragma once
 
-public class BodyState : ModuleRules
+#include "BodyStateSkeletonStorage.h"
+#include "IBodyState.h"
+class FBodyStateHMDDevice;
+
+class FBodyState : public IBodyState
 {
-	public BodyState(ReadOnlyTargetRules Target) : base(Target)
+public:
+	virtual TSharedPtr<class IInputDevice> CreateInputDevice(const TSharedRef<FGenericApplicationMessageHandler>& InMessageHandler);
+
+	virtual void StartupModule() override;
+	virtual void ShutdownModule() override;
+
+	bool IsActive();
+
+	virtual bool IsInputReady() override;
+
+	TSharedPtr<class FBodyStateInputDevice> BodyStateInputDevice;
+	virtual TSharedPtr<class FBodyStateInputDevice> GetInputDevice()
 	{
-		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-		PublicIncludePaths.AddRange(
-			new string[] {
-			}
-			);
-				
-		
-		PrivateIncludePaths.AddRange(
-			new string[] {
-				"ThirdParty/BodyState/Private",
-			}
-			);
-			
-		
-		PublicDependencyModuleNames.AddRange(
-			new string[]
-			{
-				"Core"
-			}
-			);
-			
-		
-		PrivateDependencyModuleNames.AddRange(
-			new string[]
-			{
-				"CoreUObject",
-				"Engine",
-				"AnimGraphRuntime",
-				"InputCore",
-				"InputDevice",
-				"HeadMountedDisplay",
-				"Slate",
-				"SlateCore"
-			}
-			);
-			if (Target.bBuildEditor)
-			{
-				PrivateDependencyModuleNames.Add("Persona");
-			}
-
-
-
-			DynamicallyLoadedModuleNames.AddRange(
-			new string[]
-			{
-			}
-			);
+		return BodyStateInputDevice;
 	}
-}
+
+	// Attach/Detach devices
+	virtual int32 AttachDevice(
+		const FBodyStateDeviceConfig& Configuration, IBodyStateInputRawInterface* InputCallbackDelegate) override;
+	virtual bool DetachDevice(int32 DeviceID) override;
+
+	virtual UBodyStateSkeleton* SkeletonForDevice(int32 DeviceID) override;
+
+	virtual int32 AttachMergingFunctionForSkeleton(
+		TFunction<void(UBodyStateSkeleton*, float)> InFunction, int32 SkeletonId = 0) override;
+	virtual bool RemoveMergingFunction(int32 MergingFunctionId) override;
+
+	virtual void AddBoneSceneListener(UBodyStateBoneComponent* Listener) override;
+	virtual void RemoveBoneSceneListener(UBodyStateBoneComponent* Listener) override;
+
+private:
+	bool bActive = false;
+	TSharedPtr<FBodyStateSkeletonStorage> SkeletonStorage;
+
+	// Built-in devices
+	TSharedPtr<FBodyStateHMDDevice> BSHMDDevice;
+};

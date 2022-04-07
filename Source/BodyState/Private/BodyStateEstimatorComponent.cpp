@@ -18,58 +18,47 @@
  *CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *************************************************************************************************************************************/
 
-using UnrealBuildTool;
+#include "BodyStateEstimatorComponent.h"
 
-public class BodyState : ModuleRules
+#include "Engine/World.h"
+#include "IBodyState.h"
+
+UBodyStateEstimatorComponent::UBodyStateEstimatorComponent(const FObjectInitializer& init) : UActorComponent(init)
 {
-	public BodyState(ReadOnlyTargetRules Target) : base(Target)
+	bWantsInitializeComponent = true;
+	bAutoActivate = true;
+
+	MergingFunctionId = -1;
+	MergingFunction = nullptr;
+}
+
+void UBodyStateEstimatorComponent::InitializeComponent()
+{
+	Super::InitializeComponent();
+
+	// Only allow game world estimators
+	if (!GetWorld()->IsGameWorld())
 	{
-		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-		PublicIncludePaths.AddRange(
-			new string[] {
-			}
-			);
-				
-		
-		PrivateIncludePaths.AddRange(
-			new string[] {
-				"ThirdParty/BodyState/Private",
-			}
-			);
-			
-		
-		PublicDependencyModuleNames.AddRange(
-			new string[]
-			{
-				"Core"
-			}
-			);
-			
-		
-		PrivateDependencyModuleNames.AddRange(
-			new string[]
-			{
-				"CoreUObject",
-				"Engine",
-				"AnimGraphRuntime",
-				"InputCore",
-				"InputDevice",
-				"HeadMountedDisplay",
-				"Slate",
-				"SlateCore"
-			}
-			);
-			if (Target.bBuildEditor)
-			{
-				PrivateDependencyModuleNames.Add("Persona");
-			}
-
-
-
-			DynamicallyLoadedModuleNames.AddRange(
-			new string[]
-			{
-			}
-			);
+		return;
 	}
+
+	// Wrapper function which calls the broadcast function
+	WrapperMergingFunction = [&](UBodyStateSkeleton* SkeletonToUpdate, float DeltaTime) {
+		if (MergingFunction != nullptr)
+		{
+			MergingFunction(SkeletonToUpdate, DeltaTime);
+		}
+		OnUpdateSkeletonEstimation.Broadcast(SkeletonToUpdate);
+	};
+
+	// Attach our selves as a bone scene listener. This will auto update our transforms
+	MergingFunctionId = IBodyState::Get().AttachMergingFunctionForSkeleton(WrapperMergingFunction);
+}
+
+void UBodyStateEstimatorComponent::UninitializeComponent()
+{
+	// remove ourselves from auto updating transform delegates
+	IBodyState::Get().RemoveMergingFunction(MergingFunctionId);
+
+	Super::UninitializeComponent();
 }

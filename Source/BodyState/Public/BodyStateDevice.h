@@ -18,58 +18,26 @@
  *CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *************************************************************************************************************************************/
 
-using UnrealBuildTool;
+#pragma once
 
-public class BodyState : ModuleRules
+#include "BodyStateDeviceConfig.h"
+#include "BodyStateInputInterface.h"
+
+#include "BodyStateDevice.generated.h"
+
+USTRUCT(BlueprintType)
+struct BODYSTATE_API FBodyStateDevice
 {
-	public BodyState(ReadOnlyTargetRules Target) : base(Target)
-	{
-		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-		PublicIncludePaths.AddRange(
-			new string[] {
-			}
-			);
-				
-		
-		PrivateIncludePaths.AddRange(
-			new string[] {
-				"ThirdParty/BodyState/Private",
-			}
-			);
-			
-		
-		PublicDependencyModuleNames.AddRange(
-			new string[]
-			{
-				"Core"
-			}
-			);
-			
-		
-		PrivateDependencyModuleNames.AddRange(
-			new string[]
-			{
-				"CoreUObject",
-				"Engine",
-				"AnimGraphRuntime",
-				"InputCore",
-				"InputDevice",
-				"HeadMountedDisplay",
-				"Slate",
-				"SlateCore"
-			}
-			);
-			if (Target.bBuildEditor)
-			{
-				PrivateDependencyModuleNames.Add("Persona");
-			}
+	GENERATED_USTRUCT_BODY()
 
+	UPROPERTY()
+	int32 DeviceId;
 
+	UPROPERTY()
+	FBodyStateDeviceConfig Config;
 
-			DynamicallyLoadedModuleNames.AddRange(
-			new string[]
-			{
-			}
-			);
-	}
-}
+	UPROPERTY()
+	class UBodyStateSkeleton* Skeleton = nullptr;
+
+	IBodyStateInputRawInterface* InputCallbackDelegate;
+};

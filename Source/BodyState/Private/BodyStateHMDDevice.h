@@ -18,58 +18,23 @@
  *CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *************************************************************************************************************************************/
 
-using UnrealBuildTool;
+#pragma once
 
-public class BodyState : ModuleRules
+#include "BodyStateDeviceConfig.h"
+#include "BodyStateInputInterface.h"
+
+class FBodyStateHMDDevice : public IBodyStateInputRawInterface
 {
-	public BodyState(ReadOnlyTargetRules Target) : base(Target)
-	{
-		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-		PublicIncludePaths.AddRange(
-			new string[] {
-			}
-			);
-				
-		
-		PrivateIncludePaths.AddRange(
-			new string[] {
-				"ThirdParty/BodyState/Private",
-			}
-			);
-			
-		
-		PublicDependencyModuleNames.AddRange(
-			new string[]
-			{
-				"Core"
-			}
-			);
-			
-		
-		PrivateDependencyModuleNames.AddRange(
-			new string[]
-			{
-				"CoreUObject",
-				"Engine",
-				"AnimGraphRuntime",
-				"InputCore",
-				"InputDevice",
-				"HeadMountedDisplay",
-				"Slate",
-				"SlateCore"
-			}
-			);
-			if (Target.bBuildEditor)
-			{
-				PrivateDependencyModuleNames.Add("Persona");
-			}
+public:
+	FBodyStateHMDDevice();
+	virtual ~FBodyStateHMDDevice();
+	int32 HMDDeviceIndex;
+	bool bShouldTrackMotionControllers;
+	float MotionControllerInertialConfidence;
+	float MotionControllerTrackedConfidence;
 
+	FBodyStateDeviceConfig Config;
 
-
-			DynamicallyLoadedModuleNames.AddRange(
-			new string[]
-			{
-			}
-			);
-	}
-}
+	virtual void UpdateInput(int32 DeviceID, class UBodyStateSkeleton* Skeleton) override;
+	virtual void OnDeviceDetach() override;
+};

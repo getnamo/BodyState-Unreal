@@ -18,58 +18,31 @@
  *CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *************************************************************************************************************************************/
 
-using UnrealBuildTool;
+#include "BodyStateBoneComponent.h"
 
-public class BodyState : ModuleRules
+#include "IBodyState.h"
+
+UBodyStateBoneComponent::UBodyStateBoneComponent(const FObjectInitializer& init) : USceneComponent(init)
 {
-	public BodyState(ReadOnlyTargetRules Target) : base(Target)
-	{
-		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-		PublicIncludePaths.AddRange(
-			new string[] {
-			}
-			);
-				
-		
-		PrivateIncludePaths.AddRange(
-			new string[] {
-				"ThirdParty/BodyState/Private",
-			}
-			);
-			
-		
-		PublicDependencyModuleNames.AddRange(
-			new string[]
-			{
-				"Core"
-			}
-			);
-			
-		
-		PrivateDependencyModuleNames.AddRange(
-			new string[]
-			{
-				"CoreUObject",
-				"Engine",
-				"AnimGraphRuntime",
-				"InputCore",
-				"InputDevice",
-				"HeadMountedDisplay",
-				"Slate",
-				"SlateCore"
-			}
-			);
-			if (Target.bBuildEditor)
-			{
-				PrivateDependencyModuleNames.Add("Persona");
-			}
+	bWantsInitializeComponent = true;
+	bAutoActivate = true;
 
+	SkeletonId = 0;
+	BoneToFollow = EBodyStateBasicBoneType::BONE_ROOT;
+}
 
+void UBodyStateBoneComponent::InitializeComponent()
+{
+	Super::InitializeComponent();
 
-			DynamicallyLoadedModuleNames.AddRange(
-			new string[]
-			{
-			}
-			);
-	}
+	// Attach our selves as a bone scene listener. This will auto update our transforms
+	IBodyState::Get().AddBoneSceneListener(this);
+}
+
+void UBodyStateBoneComponent::UninitializeComponent()
+{
+	// remove ourselves from auto updating transform delegates
+	IBodyState::Get().RemoveBoneSceneListener(this);
+
+	Super::UninitializeComponent();
 }

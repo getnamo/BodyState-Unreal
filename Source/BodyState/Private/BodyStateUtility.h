@@ -18,58 +18,25 @@
  *CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *************************************************************************************************************************************/
 
-using UnrealBuildTool;
+#pragma once
 
-public class BodyState : ModuleRules
+#include "CoreMinimal.h"
+#include "UObject/Class.h"
+#include "UObject/Package.h"
+
+DECLARE_LOG_CATEGORY_EXTERN(BodyStateLog, Log, All);
+
+class BODYSTATE_API FBodyStateUtility
 {
-	public BodyState(ReadOnlyTargetRules Target) : base(Target)
+public:
+	// Math Utility
+	static FRotator CombineRotators(FRotator A, FRotator B);
+	static float AngleBetweenVectors(FVector A, FVector B);
+
+	template <typename T>
+	static FString EnumToString(const FString& enumName, const T value)
 	{
-		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-		PublicIncludePaths.AddRange(
-			new string[] {
-			}
-			);
-				
-		
-		PrivateIncludePaths.AddRange(
-			new string[] {
-				"ThirdParty/BodyState/Private",
-			}
-			);
-			
-		
-		PublicDependencyModuleNames.AddRange(
-			new string[]
-			{
-				"Core"
-			}
-			);
-			
-		
-		PrivateDependencyModuleNames.AddRange(
-			new string[]
-			{
-				"CoreUObject",
-				"Engine",
-				"AnimGraphRuntime",
-				"InputCore",
-				"InputDevice",
-				"HeadMountedDisplay",
-				"Slate",
-				"SlateCore"
-			}
-			);
-			if (Target.bBuildEditor)
-			{
-				PrivateDependencyModuleNames.Add("Persona");
-			}
-
-
-
-			DynamicallyLoadedModuleNames.AddRange(
-			new string[]
-			{
-			}
-			);
+		UEnum* pEnum = FindObject<UEnum>(ANY_PACKAGE, *enumName);
+		return *(pEnum ? pEnum->GetNameStringByIndex(static_cast<uint8>(value)) : "null");
 	}
-}
+};

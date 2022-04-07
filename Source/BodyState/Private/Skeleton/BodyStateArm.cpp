@@ -18,58 +18,41 @@
  *CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *************************************************************************************************************************************/
 
-using UnrealBuildTool;
+#include "Skeleton/BodyStateArm.h"
 
-public class BodyState : ModuleRules
+UBodyStateFinger::UBodyStateFinger(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
-	public BodyState(ReadOnlyTargetRules Target) : base(Target)
-	{
-		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-		PublicIncludePaths.AddRange(
-			new string[] {
-			}
-			);
-				
-		
-		PrivateIncludePaths.AddRange(
-			new string[] {
-				"ThirdParty/BodyState/Private",
-			}
-			);
-			
-		
-		PublicDependencyModuleNames.AddRange(
-			new string[]
-			{
-				"Core"
-			}
-			);
-			
-		
-		PrivateDependencyModuleNames.AddRange(
-			new string[]
-			{
-				"CoreUObject",
-				"Engine",
-				"AnimGraphRuntime",
-				"InputCore",
-				"InputDevice",
-				"HeadMountedDisplay",
-				"Slate",
-				"SlateCore"
-			}
-			);
-			if (Target.bBuildEditor)
-			{
-				PrivateDependencyModuleNames.Add("Persona");
-			}
+}
 
+UBodyStateHand::UBodyStateHand(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+{
+}
 
+UBodyStateFinger* UBodyStateHand::ThumbFinger()
+{
+	return Fingers[0];
+}
 
-			DynamicallyLoadedModuleNames.AddRange(
-			new string[]
-			{
-			}
-			);
-	}
+UBodyStateFinger* UBodyStateHand::IndexFinger()
+{
+	return Fingers[1];
+}
+
+UBodyStateFinger* UBodyStateHand::MiddleFinger()
+{
+	return Fingers[2];
+}
+
+UBodyStateFinger* UBodyStateHand::RingFinger()
+{
+	return Fingers[3];
+}
+
+UBodyStateFinger* UBodyStateHand::PinkyFinger()
+{
+	return Fingers[4];
+}
+
+UBodyStateArm::UBodyStateArm(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+{
 }

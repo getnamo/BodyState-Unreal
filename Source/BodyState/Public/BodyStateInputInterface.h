@@ -18,58 +18,34 @@
  *CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *************************************************************************************************************************************/
 
-using UnrealBuildTool;
+#pragma once
 
-public class BodyState : ModuleRules
+#include "CoreMinimal.h"
+#include "UObject/Interface.h"
+
+#include "BodyStateInputInterface.generated.h"
+
+// For non-uobjects
+class BODYSTATE_API IBodyStateInputRawInterface
 {
-	public BodyState(ReadOnlyTargetRules Target) : base(Target)
-	{
-		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-		PublicIncludePaths.AddRange(
-			new string[] {
-			}
-			);
-				
-		
-		PrivateIncludePaths.AddRange(
-			new string[] {
-				"ThirdParty/BodyState/Private",
-			}
-			);
-			
-		
-		PublicDependencyModuleNames.AddRange(
-			new string[]
-			{
-				"Core"
-			}
-			);
-			
-		
-		PrivateDependencyModuleNames.AddRange(
-			new string[]
-			{
-				"CoreUObject",
-				"Engine",
-				"AnimGraphRuntime",
-				"InputCore",
-				"InputDevice",
-				"HeadMountedDisplay",
-				"Slate",
-				"SlateCore"
-			}
-			);
-			if (Target.bBuildEditor)
-			{
-				PrivateDependencyModuleNames.Add("Persona");
-			}
+public:
+	virtual void UpdateInput(int32 DeviceID, class UBodyStateSkeleton* Skeleton) = 0;
+	virtual void OnDeviceDetach() = 0;
+};
 
+// for uobject and bps
+UINTERFACE(Blueprintable, MinimalAPI)
+class UBodyStateInputInterface : public UInterface
+{
+	GENERATED_BODY()
+};
 
+class BODYSTATE_API IBodyStateInputInterface
+{
+	GENERATED_BODY()
 
-			DynamicallyLoadedModuleNames.AddRange(
-			new string[]
-			{
-			}
-			);
-	}
-}
+public:
+	/* Requests your device to update the skeleton. You can use this BS polling method or push updates to your skeleton*/
+	UFUNCTION(BlueprintNativeEvent, Category = "Body State Poll Interface")
+	void UpdateInput(int32 DeviceID, class UBodyStateSkeleton* Skeleton);	 // todo: define
+};

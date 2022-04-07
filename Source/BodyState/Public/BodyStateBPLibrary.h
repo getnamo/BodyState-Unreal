@@ -1,32 +1,62 @@
-// Copyright 1998-2016 Epic Games, Inc. All Rights Reserved.
+/*************************************************************************************************************************************
+ *The MIT License(MIT)
+ *
+ *Copyright(c) 2016 Jan Kaniewski(Getnamo)
+ *Modified work Copyright(C) 2019 - 2021 Ultraleap, Inc.
+ *
+ *Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
+ *files(the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify,
+ *merge, publish, distribute, sublicense, and / or sell copies of the Software, and to permit persons to whom the Software is
+ *furnished to do so, subject to the following conditions :
+ *
+ *The above copyright notice and this permission notice shall be included in all copies or
+ *substantial portions of the Software.
+ *
+ *THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ *MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+ *FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ *CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *************************************************************************************************************************************/
 
 #pragma once
 
-#include "Engine.h"
+#include "BodyStateDeviceConfig.h"
+#include "BodyStateInputInterface.h"
+#include "Runtime/Engine/Classes/Kismet/BlueprintFunctionLibrary.h"
+#include "Skeleton/BodyStateSkeleton.h"
+
 #include "BodyStateBPLibrary.generated.h"
 
-/* 
-*	Function library class.
-*	Each function in it is expected to be static and represents blueprint node that can be called in any blueprint.
-*
-*	When declaring function you can define metadata for the node. Key function specifiers will be BlueprintPure and BlueprintCallable.
-*	BlueprintPure - means the function does not affect the owning object in any way and thus creates a node without Exec pins.
-*	BlueprintCallable - makes a function which can be executed in Blueprints - Thus it has Exec pins.
-*	DisplayName - full name of the node, shown when you mouse over the node and in the blueprint drop down menu.
-*				Its lets you name the node using characters not allowed in C++ function names.
-*	CompactNodeTitle - the word(s) that appear on the node.
-*	Keywords -	the list of keywords that helps you to find node when you search for it using Blueprint drop-down menu. 
-*				Good example is "Print String" node which you can find also by using keyword "log".
-*	Category -	the category your node will be under in the Blueprint drop-down menu.
-*
-*	For more info on custom blueprint nodes visit documentation:
-*	https://wiki.unrealengine.com/Custom_Blueprint_Node_Creation
-*/
+/*
+ * Extra functions useful for animation rigging in BP
+ */
 UCLASS()
-class UBodyStateBPLibrary : public UBlueprintFunctionLibrary
+class BODYSTATE_API UBodyStateBPLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_UCLASS_BODY()
 
-	UFUNCTION(BlueprintCallable, meta = (DisplayName = "Execute Sample function", Keywords = "BodyState sample test testing"), Category = "BodyStateTesting")
-	static float BodyStateSampleFunction(float Param);
+	UFUNCTION(BlueprintCallable, Category = "Body State Input")
+	static int32 AttachDevice(
+		const FBodyStateDeviceConfig& Configuration, TScriptInterface<IBodyStateInputInterface> InputCallbackDelegate);
+
+	static int32 AttachDeviceNative(
+		const FBodyStateDeviceConfig& Configuration, IBodyStateInputRawInterface* InputCallbackDelegate);
+
+	UFUNCTION(BlueprintCallable, Category = "Body State Input")
+	static bool DetachDevice(int32 DeviceID);
+
+	/**
+	 * Obtain the UBodyStateSkeleton attached to device or 0 if you want the merged skeleton
+	 */
+	UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"), Category = "Body State Input")
+	static UBodyStateSkeleton* SkeletonForDevice(UObject* WorldContextObject, int32 DeviceID = 0);
+
+	/** Convenience function for rigging*/
+	UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"), Category = "Body State Input")
+	static FTransform TransformForBoneNamedInAnimInstance(const FName& Bone, UAnimInstance* Instance);
+
+	// Define mixing and update interfaces - this isn't ready yet, should it be called per skeleton or per bone?
+
+	// BodyState Merging algorithm
+	static bool AttachMergeAlgorithm(TFunction<void(UBodyStateSkeleton*, float)> InFunction);
 };

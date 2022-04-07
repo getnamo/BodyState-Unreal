@@ -18,58 +18,28 @@
  *CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *************************************************************************************************************************************/
 
-using UnrealBuildTool;
+#pragma once
 
-public class BodyState : ModuleRules
+#include "Runtime/Engine/Classes/Components/SceneComponent.h"
+#include "Skeleton/BodyStateSkeleton.h"
+
+#include "BodyStateBoneComponent.generated.h"
+
+/**
+ * Scene Component which syncs to a desired BodyStateBone
+ */
+UCLASS(ClassGroup = "BodyState", meta = (BlueprintSpawnableComponent))
+class BODYSTATE_API UBodyStateBoneComponent : public USceneComponent
 {
-	public BodyState(ReadOnlyTargetRules Target) : base(Target)
-	{
-		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-		PublicIncludePaths.AddRange(
-			new string[] {
-			}
-			);
-				
-		
-		PrivateIncludePaths.AddRange(
-			new string[] {
-				"ThirdParty/BodyState/Private",
-			}
-			);
-			
-		
-		PublicDependencyModuleNames.AddRange(
-			new string[]
-			{
-				"Core"
-			}
-			);
-			
-		
-		PrivateDependencyModuleNames.AddRange(
-			new string[]
-			{
-				"CoreUObject",
-				"Engine",
-				"AnimGraphRuntime",
-				"InputCore",
-				"InputDevice",
-				"HeadMountedDisplay",
-				"Slate",
-				"SlateCore"
-			}
-			);
-			if (Target.bBuildEditor)
-			{
-				PrivateDependencyModuleNames.Add("Persona");
-			}
+	GENERATED_UCLASS_BODY()
+public:
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Body State Bone Component")
+	int32 SkeletonId;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Body State Bone Component")
+	EBodyStateBasicBoneType BoneToFollow;
 
-
-			DynamicallyLoadedModuleNames.AddRange(
-			new string[]
-			{
-			}
-			);
-	}
-}
+protected:
+	virtual void InitializeComponent() override;
+	virtual void UninitializeComponent() override;
+};

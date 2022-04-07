@@ -18,58 +18,28 @@
  *CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *************************************************************************************************************************************/
 
-using UnrealBuildTool;
+#include "BodyStateUtility.h"
 
-public class BodyState : ModuleRules
+DEFINE_LOG_CATEGORY(BodyStateLog);
+
+FRotator FBodyStateUtility::CombineRotators(FRotator A, FRotator B)
 {
-	public BodyState(ReadOnlyTargetRules Target) : base(Target)
+	FQuat AQuat = FQuat(A);
+	FQuat BQuat = FQuat(B);
+
+	return FRotator(BQuat * AQuat);
+}
+
+float FBodyStateUtility::AngleBetweenVectors(FVector A, FVector B)
+{
+	float dotAB = FVector::DotProduct(A, B);
+	float bottom = (A.Size() * B.Size());
+	if (bottom != 0)
 	{
-		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-		PublicIncludePaths.AddRange(
-			new string[] {
-			}
-			);
-				
-		
-		PrivateIncludePaths.AddRange(
-			new string[] {
-				"ThirdParty/BodyState/Private",
-			}
-			);
-			
-		
-		PublicDependencyModuleNames.AddRange(
-			new string[]
-			{
-				"Core"
-			}
-			);
-			
-		
-		PrivateDependencyModuleNames.AddRange(
-			new string[]
-			{
-				"CoreUObject",
-				"Engine",
-				"AnimGraphRuntime",
-				"InputCore",
-				"InputDevice",
-				"HeadMountedDisplay",
-				"Slate",
-				"SlateCore"
-			}
-			);
-			if (Target.bBuildEditor)
-			{
-				PrivateDependencyModuleNames.Add("Persona");
-			}
-
-
-
-			DynamicallyLoadedModuleNames.AddRange(
-			new string[]
-			{
-			}
-			);
+		return FMath::Acos(dotAB / bottom);
+	}
+	else
+	{
+		return 0.f;
 	}
 }
