@@ -7,12 +7,14 @@ Desktop.ini
 
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
+Binaries/*
 
 # Windows Installer files
 *.cab
 *.msi
 *.msm
 *.msp
+*.pdb
 
 # Windows shortcuts
 *.lnk
@@ -45,9 +47,4 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
-
-# Plugin Temp Folders
 Intermediate
-
-# Binary files
-*.pdb
